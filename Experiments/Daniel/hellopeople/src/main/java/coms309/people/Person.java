@@ -23,15 +23,18 @@ public class Person {
 
     private String telephone;
 
+    private int age;
+
 //    public Person(){
 //
 //    }
 
-    public Person(String firstName, String lastName, String address, String telephone){
+    public Person(String firstName, String lastName, String address, String telephone, int age){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.telephone = telephone;
+        this.age = age;
     }
 
 
@@ -42,6 +45,12 @@ public class Person {
 
     public String getFirstName() {
         return this.firstName;
+    }
+    public void setAge(int age){
+        this.age = age;
+    }
+    public int getAge(){
+        return this.age;
     }
 
     public void setFirstName(String firstName) {
@@ -75,8 +84,8 @@ public class Person {
     @Override
     public String toString() {
         return firstName + " " 
-               + lastName + " "
+               + lastName + " "  + age + " "
                + address + " "
-               + telephone;
+               + telephone ;
     }
 }
