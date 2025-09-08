@@ -1,12 +1,17 @@
 package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.TextViewCompat;
 
-import android.content.Intent;
+import android.app.ActivityManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.Color;
+import android.widget.Toast;
+
 
 import org.w3c.dom.Text;
 
@@ -46,9 +51,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);             // link to Main activity XML
+        getWindow().getDecorView().setBackgroundColor(Color.parseColor("#BBDEFB")); // Set background color of entire window
 
         /* initialize UI elements */
         messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-        messageText.setText("Hello World");
+        messageText.setTypeface(null, Typeface.BOLD);   // Changes the text to be bold
+        messageText.setTextColor(Color.parseColor("#009688"));  // Changes text color
+        messageText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);         // Centers the text
+        messageText.setShadowLayer(9f, 7f, 7f, Color.GRAY);  // Adds a shadow to the text
+
+        // Auto re-sizing feature for the text
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+                messageText,
+                50,  // minimum size
+                80,  // maximum size
+                3,   // step size
+                TypedValue.COMPLEX_UNIT_SP
+        );
+
+        // Listener that displays "CyMarket clicked!" when pressed
+        messageText.setOnClickListener(v ->
+                Toast.makeText(MainActivity.this, "CyMarket clicked!", Toast.LENGTH_SHORT).show()
+        );
+
+        messageText.setText("CyMarket");
     }
 }
