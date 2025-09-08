@@ -47,6 +47,15 @@ public class PeopleController {
         peopleList.put(person.getFirstName(), person);
         return "New person "+ person.getFirstName() + " Saved";
     }
+      @PostMapping("/people/addFriend/{username}")
+    public  String createFriend(@PathVariable String username,@RequestBody Person person) {
+        Person temp = peopleList.get(username);
+        temp.addfriend(person);
+        
+        peopleList.replace(temp.getFirstName(), temp);
+        return temp.getFirstName()+ " has added a new Friend "+ person.getFirstName() + " has been saved";
+       
+    }
 
     // THIS IS THE READ OPERATION
     // Springboot gets the PATHVARIABLE from the URL
@@ -59,6 +68,13 @@ public class PeopleController {
         Person p = peopleList.get(firstName);
         return p;
     }
+     @GetMapping("/people/{firstName}/getFriends")
+    public List<Person> getPersonfriend(@PathVariable String firstName) {
+        List<Person> p = peopleList.get(firstName).getfriendList();
+        return p;
+    }
+    
+
 
     // THIS IS A GET METHOD
     // RequestParam is expected from the request under the key "name"

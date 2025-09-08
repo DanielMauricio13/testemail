@@ -1,6 +1,9 @@
 package coms309.people;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +28,8 @@ public class Person {
 
     private int age;
 
+    private List<Person> friendList = new ArrayList<Person>();
+
 //    public Person(){
 //
 //    }
@@ -35,6 +40,7 @@ public class Person {
         this.address = address;
         this.telephone = telephone;
         this.age = age;
+        
     }
 
 
@@ -60,9 +66,18 @@ public class Person {
     public String getLastName() {
         return this.lastName;
     }
+    public  void addfriend(Person friend){
+        this.friendList.add(friend);
+    }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public void addfriendList(List<Person> frineds){
+        this.friendList = frineds;
+    }
+    public List<Person> getfriendList(){
+        return this.friendList;
     }
 
     public String getAddress() {
@@ -86,6 +101,7 @@ public class Person {
         return firstName + " " 
                + lastName + " "  + age + " "
                + address + " "
-               + telephone ;
+               + telephone + " "
+               + friendList.toString() ;
     }
 }
