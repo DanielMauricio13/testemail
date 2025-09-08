@@ -11,7 +11,7 @@
         android:id="@+id/main_msg_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Intent Example"
+        android:text="Save last seen number here"
         android:layout_gravity="center"
         android:layout_marginTop="200dp"
         android:textSize="30dp"

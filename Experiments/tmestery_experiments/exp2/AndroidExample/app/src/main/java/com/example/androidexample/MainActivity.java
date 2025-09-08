@@ -56,20 +56,20 @@ public class MainActivity extends AppCompatActivity {
         /* extract data passed into this activity from another activity */
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
-            messageText.setText("Intent Example");
+            messageText.setText("Save last seen number here");
         } else {
             String number = extras.getString("NUM");  // this will come from LoginActivity
-            messageText.setText("The number was " + number);
+            messageText.setText("The last saved number was " + number);
         }
 
         /* click listener on counter button pressed */
         counterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 /* when counter button is pressed, use intent to switch to Counter Activity */
                 Intent intent = new Intent(MainActivity.this, CounterActivity.class);
                 startActivity(intent);
+
             }
         });
     }

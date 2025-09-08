@@ -46,4 +46,12 @@
 
     </Button>
 
+    <Button
+        android:id="@+id/randomNumButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-630dp"
+        android:text="Generate a Random Number!" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
