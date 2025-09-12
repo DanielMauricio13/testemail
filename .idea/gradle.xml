@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Experiments/tmestery_experiments/exp1/AndroidExample" />
+        <option name="gradleJvm" value="11" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Experiments/tmestery_experiments/exp2/AndroidExample" />
+        <option name="gradleJvm" value="11" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Experiments/tmestery_experiments/exp3/AndroidExample" />
+        <option name="gradleJvm" value="11" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
