@@ -13,7 +13,6 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-// REST endpoints return JSON
 @RestController
 public class WelcomeController {
     // data store
@@ -91,7 +90,7 @@ public class WelcomeController {
         Todo t = find(id);
         return (t == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(t);
     }
-    // update feature
+    // feature UPDATE
     @PutMapping("/todos/{id}")
     public ResponseEntity<Todo> update(@PathVariable long id, @RequestBody @Valid UpdateTodo req) {
         Todo t = find(id);
@@ -119,7 +118,7 @@ public class WelcomeController {
         for (Todo t : todos) if (t.id == id) return t;
         return null;
     }
-    // helper method to look through dates
+    // helper method to look through the dates
     private LocalDate parseDate(String raw) {
         if (raw == null || raw.isBlank()) return null;
         try {
