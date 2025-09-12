@@ -19,7 +19,7 @@ public class WelcomeController {
     private final List<Todo> todos = new CopyOnWriteArrayList<>();
     private long seq = 0;
 
-    // creates some data
+    // creates some data for to-do list
     public WelcomeController() {
         todos.add(new Todo(++seq, "Buy textbook", "COM S 311", LocalDate.now().plusDays(1), Status.OPEN));
         todos.add(new Todo(++seq, "Get package", "Pickup at MWL", LocalDate.now().plusDays(3), Status.OPEN));
