@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.graphics.Typeface;
 
 import org.w3c.dom.Text;
 
@@ -40,15 +43,31 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView messageText;   // define message textview variable
+    private TextView messageText;
+    private TextView extraText;
+    private Button button1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);             // link to Main activity XML
+        setContentView(R.layout.activity_main);
 
-        /* initialize UI elements */
-        messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-        messageText.setText("Hello World");
+        messageText = findViewById(R.id.main_msg_txt);// always visible
+        messageText.setTypeface(null, Typeface.BOLD);
+        extraText = findViewById(R.id.button_msg_txt);      // toggleable
+        button1 = findViewById(R.id.button1);
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (extraText.getVisibility() == View.VISIBLE) {
+                    extraText.setVisibility(View.GONE);
+                } else {
+                    extraText.setVisibility(View.VISIBLE);
+                    extraText.setTextColor(Color.parseColor("#FFFF00"));
+                    extraText.setGravity(Gravity.CENTER);
+                }
+            }
+        });
     }
 }
