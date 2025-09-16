@@ -68,9 +68,19 @@ public class PeopleController {
         Person p = peopleList.get(firstName);
         return p;
     }
+
      @GetMapping("/people/{firstName}/getFriends")
     public List<Person> getPersonfriend(@PathVariable String firstName) {
         List<Person> p = peopleList.get(firstName).getfriendList();
+        return p;
+    }
+   
+
+     @GetMapping("/people/{firstName}/{age}")
+    public Person setAge(@PathVariable String firstName, @PathVariable int age) {
+        Person p = peopleList.get(firstName);
+        p.setAge(age);
+        peopleList.replace(p.getFirstName(), p);
         return p;
     }
     
