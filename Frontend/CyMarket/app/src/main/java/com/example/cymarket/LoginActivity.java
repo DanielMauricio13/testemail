@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.cymarket;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.cymarket.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,11 +36,8 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                /* when login button is pressed, use intent to switch to Login Activity */
-                Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
-                intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
-                intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
-                startActivity(intent);  // go to MainActivity with the key-value data
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);  // go to SignupActivity
             }
         });
 
