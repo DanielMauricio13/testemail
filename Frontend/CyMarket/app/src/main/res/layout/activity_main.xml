@@ -31,7 +31,6 @@
         android:textColor="#000000">
     </TextView>
 
-
     <Button
         android:id="@+id/main_login_btn"
         android:layout_width="150dp"
@@ -52,5 +51,33 @@
         android:textColor="#ffffff">
     </Button>
 
+    <Button
+        android:id="@+id/main_profiles_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Profile"
+        android:textSize="20sp"
+        android:textColor="#ffffff">
+    </Button>
 
+    <Button
+        android:id="@+id/main_messages_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Messages"
+        android:textSize="20sp"
+        android:textColor="#ffffff">
+    </Button>
+
+    <Button
+        android:id="@+id/main_settings_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Settings"
+        android:textSize="20sp"
+        android:textColor="#ffffff">
+    </Button>
 </androidx.appcompat.widget.LinearLayoutCompat>

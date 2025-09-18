@@ -4,12 +4,11 @@ plugins {
 
 android {
     namespace 'com.example.cymarket'
-    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.CyMarket"
         minSdk 24
-        targetSdk 33
+        compileSdk 35
         versionCode 1
         versionName "1.0"
 
