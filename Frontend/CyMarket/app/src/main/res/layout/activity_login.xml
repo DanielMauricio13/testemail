@@ -5,18 +5,29 @@
     tools:context=".MainActivity"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login Example"
+        android:text="Welcome"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="150dp"
-        android:textSize="30dp"
-        android:textColor="#fc0303">
+        android:textSize="45dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/foreground">
     </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log in to continue."
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#808080" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,13 +41,16 @@
             android:layout_height="wrap_content"
             android:text="username: "
             android:textSize="20dp"
-            android:textColor="#000000">
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_1_color">
         </TextView>
 
         <EditText
             android:id="@+id/login_username_edt"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_2_color"
             android:hint="Enter Username Here">
         </EditText>
 
@@ -53,7 +67,8 @@
             android:layout_height="wrap_content"
             android:text="password: "
             android:textSize="20dp"
-            android:textColor="#000000">
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_1_color">
         </TextView>
 
         <EditText
@@ -61,6 +76,8 @@
             android:layout_width="wrap_content"
             android:inputType="textPassword"
             android:layout_height="50dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_2_color"
             android:hint="Enter Password Here">
         </EditText>
 
@@ -80,7 +97,9 @@
             android:layout_marginRight="10dp"
             android:text="Login"
             android:textSize="20sp"
-            android:textColor="#ffffff">
+            android:backgroundTint="@color/foreground"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_2_color">
         </Button>
 
         <Button
@@ -90,7 +109,9 @@
             android:layout_marginLeft="10dp"
             android:text="Signup"
             android:textSize="20sp"
-            android:textColor="#ffffff">
+            android:backgroundTint="@color/foreground"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/buttons_2_color">
         </Button>
 
     </LinearLayout>
