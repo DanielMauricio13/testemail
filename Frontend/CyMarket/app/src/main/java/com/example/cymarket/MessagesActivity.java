@@ -14,6 +14,8 @@ public class MessagesActivity extends AppCompatActivity {
     private Button profileButton;  // define messages button variable
     private Button sellButton;  // define settings button variable
 
+    private Button myListingsButton; // define my listings button variable
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,7 @@ public class MessagesActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.msgs_home_page_btn);
         profileButton = findViewById(R.id.msgs_profile_btn);
         sellButton = findViewById(R.id.msgs_sell_btn);
+        myListingsButton = findViewById(R.id.msgs_listings_btn);
 
         // Click listener on home button pressed:
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +50,15 @@ public class MessagesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MessagesActivity.this, SellActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Click listener on listings button pressed:
+        myListingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessagesActivity.this, ListingsActivity.class);
                 startActivity(intent);
             }
         });

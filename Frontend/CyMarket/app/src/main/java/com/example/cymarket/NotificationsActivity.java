@@ -9,18 +9,20 @@ import android.widget.TextView;
 
 public class NotificationsActivity extends AppCompatActivity {
 
-    private TextView messageText;
+    private TextView messageText;    // establish messagetext variable
 
-    private Button backButton;
+    private Button backButton;       // establish backbutton variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+        setContentView(R.layout.activity_notifications); // notifications activity xml
 
+        // links to xml
         messageText = findViewById(R.id.notifs_msg_txt);
         backButton = findViewById(R.id.notifs_back_btn);
 
+        // establish listener for back button functionality
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,29 +8,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SellActivity extends AppCompatActivity {
+public class ListingsActivity extends AppCompatActivity {
 
-    private TextView messageText;   // define messagetext variable
+    private TextView messageText;    // establish messagetext variable
 
-    private Button backButton;     // define backbutton variable
+    private Button backButton;      // establish backbutton variable
 
-    private EditText itemNameEditText;    // define itemnameedittext varaible
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);     // sell activity xml
+        setContentView(R.layout.activity_listings);   // listings activity xml
 
-        // link to xml
-        messageText = findViewById(R.id.sell_msg_txt);
-        backButton = findViewById(R.id.sell_back_btn);
-        itemNameEditText = findViewById(R.id.sell_item_name_edt);
+        // links to xml
+        messageText = findViewById(R.id.listings_msg_txt);
+        backButton = findViewById(R.id.listings_back_btn);
 
-        // establish listener for back button functionality
+        // establish linstener for back button functionality
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SellActivity.this, MessagesActivity.class);
+                Intent intent = new Intent(ListingsActivity.this, MessagesActivity.class);
                 startActivity(intent);
             }
         });
@@ -62,4 +58,3 @@ public class SellActivity extends AppCompatActivity {
 
     }
 }
-

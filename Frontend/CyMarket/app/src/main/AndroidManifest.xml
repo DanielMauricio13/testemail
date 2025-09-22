@@ -32,6 +32,8 @@
         <activity
             android:name=".SellActivity"
             android:exported="false" />
+        <activity android:name=".ListingsActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
