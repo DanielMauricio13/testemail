@@ -4,6 +4,7 @@ package onetomany.Users;
 import java.util.*;
 
 import jakarta.persistence.*;
+import onetomany.Items.Item;
 
 
 
@@ -26,7 +27,8 @@ public class User {
     @Column(unique = true)
     private String username;
 
-  
+    @OneToMany(mappedBy = "user")
+    List<Item> userItems;
     
     private int viewCount= 1;
     private int acceptanceCount=1;

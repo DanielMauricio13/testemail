@@ -1,4 +1,4 @@
-package onetomany.sellers;
+package onetomany.Sellers;
 
 import jakarta.persistence.*;
 import java.util.Date;
