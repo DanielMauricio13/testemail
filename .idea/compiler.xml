@@ -10,6 +10,7 @@
         <module name="spring-petclinic" />
         <module name="hellopeople" />
         <module name="hellopeople (1)" />
+        <module name="hellopeople (2)" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="hellopeople" options="-parameters" />
       <module name="hellopeople (1)" options="-parameters" />
+      <module name="hellopeople (2)" options="-parameters" />
       <module name="helloworld" options="-parameters" />
       <module name="spring-petclinic" options="-parameters" />
     </option>
