@@ -3,7 +3,10 @@ package onetomany.Users;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
+import onetomany.Items.Item;
 
 
 
@@ -26,15 +29,19 @@ public class User {
     @Column(unique = true)
     private String username;
 
-  
+     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_items",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private Set<Item> likedItems = new HashSet<>();
     
-    private int viewCount= 1;
-    private int acceptanceCount=1;
+    
 
     @Lob
     private byte[] profileImage;
-    @ElementCollection
-    private List<Integer> UserHobbiesLists;
+   
 
 
 
@@ -47,7 +54,7 @@ public class User {
     // =============================== Constructors ================================== //
 
 
-    public User(String name, String emailId, String userPassword,String userName, Date birthday, int age, String gender  ) {
+    public User(String name, String emailId, String userPassword,String username ) {
         this.name = name;
         this.emailId = emailId;
         this.joiningDate = new Date();
@@ -55,7 +62,7 @@ public class User {
     
         this.UserPassword= userPassword;
 
-        this.username = userName;
+        this.username = username;
         
         this.lastLoggin=new Date();
 
@@ -65,7 +72,22 @@ public class User {
     public User() {
        
     }
+     
+    public void addItem(Item item){
+        this.likedItems.add(item);
+    }
+    @JsonIgnore
+    public Set<Item> getLikedItems(){
+        return this.likedItems;
+    }
+     public int getLikedItemsCount(){
+        return this.likedItems.size();
+    }
+    public void removeItem(Item item){
+        this.likedItems.remove(item);
+    }
 
+    
     public int getId(){
         return id;
     }
@@ -82,10 +104,9 @@ public class User {
         this.name = name;
     }
 
-    public String getUsername() {
+   public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -129,36 +150,10 @@ public class User {
         lastLoggin= new Date();
     }
 
-   
-
-  
-
-    
-
 
     public Date getLastLoggin(){
         return this.lastLoggin;
     }
-
-  
-
-
-    public int getViewCount() {
-        return viewCount;
-    }
-
-
-    
-    public void addCount(){
-        this.viewCount++;
-    }
-    public int getRate(){
-        if(this.acceptanceCount ==0 || this.viewCount ==0 )
-            return 1;
-        return this.acceptanceCount/this.viewCount;
-    }
-
-
 
    
     public byte[] getProfileImage() {
