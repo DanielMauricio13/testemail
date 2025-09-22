@@ -11,12 +11,23 @@ public class NotificationsActivity extends AppCompatActivity {
 
     private TextView messageText;
 
+    private Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
         messageText = findViewById(R.id.notifs_msg_txt);
+        backButton = findViewById(R.id.notifs_back_btn);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotificationsActivity.this, ProfilesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

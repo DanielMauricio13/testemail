@@ -20,6 +20,22 @@
         android:textColor="#000000">
     </TextView>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </Space>
+
+    <Button
+        android:id="@+id/notifs_back_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Back"
+        android:textSize="20sp"
+        android:textColor="#ffffff">
+    </Button>
+
 
 
 
