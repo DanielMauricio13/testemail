@@ -12,6 +12,8 @@ public class MessagesActivity extends AppCompatActivity {
 
     private Button homeButton;  // define profile button variable
     private Button profileButton;  // define messages button variable
+
+    private Button buyButton;   // define buy button variable
     private Button sellButton;  // define settings button variable
 
     private Button myListingsButton; // define my listings button variable
@@ -24,6 +26,7 @@ public class MessagesActivity extends AppCompatActivity {
         // Link all the buttons:
         homeButton = findViewById(R.id.msgs_home_page_btn);
         profileButton = findViewById(R.id.msgs_profile_btn);
+        buyButton = findViewById(R.id.msgs_buy_btn);
         sellButton = findViewById(R.id.msgs_sell_btn);
         myListingsButton = findViewById(R.id.msgs_listings_btn);
 
@@ -41,6 +44,15 @@ public class MessagesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MessagesActivity.this, ProfilesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Click listener on buy button pressed:
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessagesActivity.this, BuyActivity.class);
                 startActivity(intent);
             }
         });
