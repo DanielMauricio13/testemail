@@ -27,8 +27,13 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @OneToMany(mappedBy = "user")
-    List<Item> userItems;
+     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_liked_items",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private Set<Item> likedItems = new HashSet<>();
     
     private int viewCount= 1;
     private int acceptanceCount=1;
@@ -49,7 +54,7 @@ public class User {
     // =============================== Constructors ================================== //
 
 
-    public User(String name, String emailId, String userPassword,String userName, Date birthday, int age, String gender  ) {
+    public User(String name, String emailId, String userPassword,String username ) {
         this.name = name;
         this.emailId = emailId;
         this.joiningDate = new Date();
@@ -57,7 +62,7 @@ public class User {
     
         this.UserPassword= userPassword;
 
-        this.username = userName;
+        this.username = username;
         
         this.lastLoggin=new Date();
 
@@ -67,7 +72,21 @@ public class User {
     public User() {
        
     }
+     
+    public void addItem(Item item){
+        this.likedItems.add(item);
+    }
+    public Set<Item> getLikedItems(){
+        return this.likedItems;
+    }
+     public int getLikedItemsCount(){
+        return this.likedItems.size();
+    }
+    public void removeItem(Item item){
+        this.likedItems.remove(item);
+    }
 
+    
     public int getId(){
         return id;
     }

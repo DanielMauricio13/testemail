@@ -6,6 +6,7 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import onetomany.Sellers.Seller;
 import onetomany.Users.User;
 
 
@@ -30,10 +31,18 @@ public class Item {
     @Column(unique = true)
     private String username;
 
-     @ManyToOne
+    @ManyToOne
     @JsonIgnore
     @JoinColumn
-    private User user;
+    private Seller seller;
+
+   @ManyToMany
+   @JoinTable(
+          name = "user_liked_items",
+         joinColumns = @JoinColumn(name = "item_id"),
+         inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> likedByUsers;
 
 
     @Lob
@@ -63,6 +72,15 @@ public Item(String name, String description, double price, String category, Stri
         this.username = userName;
         
        
+    }
+    public void addLikedByUser(User user){
+        this.likedByUsers.add(user);
+    }
+    public Set<User> getLikedByUsers(){
+        return this.likedByUsers;
+    }
+      public int getLikedByUsersCount(){
+        return this.likedByUsers.size();
     }
 
     public Item() {

@@ -8,6 +8,10 @@ import org.springframework.http.MediaType;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import onetomany.Items.Item;
+import onetomany.Items.ItemsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -32,7 +36,8 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    ItemsRepository itemRepository;
 
 
     private String success = "{\"message\":\"success\"}";
@@ -85,7 +90,7 @@ public class UserController {
 
 
     
-    @PostMapping(path = "/users/")
+    @PostMapping(path = "/users")
     String createUser(@RequestBody User user){
         if (user == null)
             return failure;
@@ -95,6 +100,24 @@ public class UserController {
         userRepository.save(user);
 
         return success;
+    }
+    @PostMapping(path = "/users/addItem/{username}")
+    String createUser(@RequestBody Item item, @PathVariable String username){
+        User tempUser= userRepository.findByUsername(username);
+        if(tempUser == null)
+            return failure;
+        if(item == null)
+            return failure;
+        Item tempItem = itemRepository.findById(item.getId());
+       
+        tempItem.addLikedByUser(tempUser);
+        itemRepository.save(tempItem);
+        tempItem = itemRepository.findById(item.getId());
+        tempUser.addItem(tempItem);
+        userRepository.save(tempUser);
+       
+        return success;
+
     }
 
  

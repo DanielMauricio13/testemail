@@ -55,7 +55,7 @@ public class ItemsController {
       return itemsRepository.findByUsername(username);
     }
 
-    @PostMapping(path = "/items/")
+    @PostMapping(path = "/items")
     String createItem(@RequestBody Item item){
         if (item == null)
             return failure;
