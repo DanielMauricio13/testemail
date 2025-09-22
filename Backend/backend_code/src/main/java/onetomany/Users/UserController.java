@@ -8,6 +8,10 @@ import org.springframework.http.MediaType;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import onetomany.Items.Item;
+import onetomany.Items.ItemsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -32,7 +36,8 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    ItemsRepository itemRepository;
 
 
     private String success = "{\"message\":\"success\"}";
@@ -40,10 +45,6 @@ public class UserController {
 
     @GetMapping(path = "/users")
     List<User> getAllUsersss(){
-        for (User useer:userRepository.findAll()) {
-            useer.setLastLoggin();
-            userRepository.save(useer);
-        }
         return userRepository.findAll();
     }
     @GetMapping(path = "/users/{id}")
@@ -85,7 +86,7 @@ public class UserController {
 
 
     
-    @PostMapping(path = "/users/")
+    @PostMapping(path = "/users")
     String createUser(@RequestBody User user){
         if (user == null)
             return failure;
@@ -95,6 +96,22 @@ public class UserController {
         userRepository.save(user);
 
         return success;
+    }
+    @PostMapping(path = "/users/addItem/{username}/{itemID}")
+    String createUser( @PathVariable String username, @PathVariable int itemID){
+        User tempUser = userRepository.findByUsername(username);
+        Item tempItem = itemRepository.findById(itemID);
+        if (tempUser == null || tempItem == null)
+            return failure;
+
+        System.out.println("User: " + tempUser.getUsername() + " Item: " + tempItem.getName());
+        tempItem.addLikedByUser(tempUser);
+        itemRepository.save(tempItem);
+        tempUser.addItem(itemRepository.findById(itemID));
+        userRepository.save(tempUser);
+        itemRepository.save(tempItem);
+        return success;
+
     }
 
  
