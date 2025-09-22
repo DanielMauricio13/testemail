@@ -13,6 +13,8 @@ public class ProfilesActivity extends AppCompatActivity {
     private Button messagesButton;  // define messages button variable
     private Button settingsButton;  // define settings button variable
 
+    private Button notificationsButton; // define notfications button variable
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,7 @@ public class ProfilesActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.prfls_home_page_btn);
         messagesButton = findViewById(R.id.prfls_messages_btn);
         settingsButton = findViewById(R.id.prfls_setting_btn);
+        notificationsButton = findViewById(R.id.prfls_notifs_btn);
 
         // Click listener on home button pressed:
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +49,15 @@ public class ProfilesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfilesActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Click listener on notifications button pressed:
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfilesActivity.this, NotificationsActivity.class);
                 startActivity(intent);
             }
         });
