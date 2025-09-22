@@ -47,8 +47,7 @@ public class Item {
 
     @Lob
     private byte[] profileImage;
-    @ElementCollection
-    private List<Integer> UserHobbiesLists;
+    
 
 
 

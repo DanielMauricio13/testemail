@@ -3,6 +3,8 @@ package onetomany.Users;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import onetomany.Items.Item;
 
@@ -29,19 +31,17 @@ public class User {
 
      @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_liked_items",
+            name = "user_items",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
     private Set<Item> likedItems = new HashSet<>();
     
-    private int viewCount= 1;
-    private int acceptanceCount=1;
+    
 
     @Lob
     private byte[] profileImage;
-    @ElementCollection
-    private List<Integer> UserHobbiesLists;
+   
 
 
 
@@ -76,6 +76,7 @@ public class User {
     public void addItem(Item item){
         this.likedItems.add(item);
     }
+    @JsonIgnore
     public Set<Item> getLikedItems(){
         return this.likedItems;
     }
@@ -103,10 +104,9 @@ public class User {
         this.name = name;
     }
 
-    public String getUsername() {
+   public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -150,36 +150,10 @@ public class User {
         lastLoggin= new Date();
     }
 
-   
-
-  
-
-    
-
 
     public Date getLastLoggin(){
         return this.lastLoggin;
     }
-
-  
-
-
-    public int getViewCount() {
-        return viewCount;
-    }
-
-
-    
-    public void addCount(){
-        this.viewCount++;
-    }
-    public int getRate(){
-        if(this.acceptanceCount ==0 || this.viewCount ==0 )
-            return 1;
-        return this.acceptanceCount/this.viewCount;
-    }
-
-
 
    
     public byte[] getProfileImage() {

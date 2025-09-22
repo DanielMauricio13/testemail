@@ -45,10 +45,6 @@ public class UserController {
 
     @GetMapping(path = "/users")
     List<User> getAllUsersss(){
-        for (User useer:userRepository.findAll()) {
-            useer.setLastLoggin();
-            userRepository.save(useer);
-        }
         return userRepository.findAll();
     }
     @GetMapping(path = "/users/{id}")
@@ -101,21 +97,19 @@ public class UserController {
 
         return success;
     }
-    @PostMapping(path = "/users/addItem/{username}")
-    String createUser(@RequestBody Item item, @PathVariable String username){
-        User tempUser= userRepository.findByUsername(username);
-        if(tempUser == null)
+    @PostMapping(path = "/users/addItem/{username}/{itemID}")
+    String createUser( @PathVariable String username, @PathVariable int itemID){
+        User tempUser = userRepository.findByUsername(username);
+        Item tempItem = itemRepository.findById(itemID);
+        if (tempUser == null || tempItem == null)
             return failure;
-        if(item == null)
-            return failure;
-        Item tempItem = itemRepository.findById(item.getId());
-       
+
+        System.out.println("User: " + tempUser.getUsername() + " Item: " + tempItem.getName());
         tempItem.addLikedByUser(tempUser);
         itemRepository.save(tempItem);
-        tempItem = itemRepository.findById(item.getId());
-        tempUser.addItem(tempItem);
+        tempUser.addItem(itemRepository.findById(itemID));
         userRepository.save(tempUser);
-       
+        itemRepository.save(tempItem);
         return success;
 
     }
