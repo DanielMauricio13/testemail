@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignupActivity extends AppCompatActivity {
-
+    // text variables
+    private EditText emailEditText;   // define email edit
     private EditText usernameEditText;  // define username edittext variable
     private EditText passwordEditText;  // define password edittext variable
     private EditText confirmEditText;   // define confirm edittext variable
+
     private TextView loginText;         // define login button variable
     private Button signupButton;        // define signup button variable
 
@@ -29,6 +31,7 @@ public class SignupActivity extends AppCompatActivity {
         confirmEditText = findViewById(R.id.signup_confirm_edt);    // link to confirm edtext in the Signup activity XML
         loginText = findViewById(R.id.signup_login_text);  // link to login button in the Signup activity XML
         signupButton = findViewById(R.id.signup_signup_btn);  // link to signup button in the Signup activity XML
+        emailEditText = findViewById(R.id.signup_email_edt); // link to email text in the Signup activity XML
 
         /* click listener on login button pressed */
         loginText.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +47,8 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 /* grab strings from user inputs */
+                String email = emailEditText.getText().toString();
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String confirm = confirmEditText.getText().toString();
