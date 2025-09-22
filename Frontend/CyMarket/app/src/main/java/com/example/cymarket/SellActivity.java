@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class SellActivity extends AppCompatActivity {
@@ -13,6 +14,8 @@ public class SellActivity extends AppCompatActivity {
 
     private Button backButton;
 
+    private EditText itemNameEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,7 @@ public class SellActivity extends AppCompatActivity {
 
         messageText = findViewById(R.id.sell_msg_txt);
         backButton = findViewById(R.id.sell_back_btn);
+        itemNameEditText = findViewById(R.id.sell_item_name_edt);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
