@@ -4,22 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONException;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONObject;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
     // text variables
@@ -31,9 +29,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText confirmEditText;   // define confirm edittext variable
     private TextView loginText;         // define login button variable
     private Button signupButton;        // define signup button variable
-
-    OkHttpClient client = new OkHttpClient();
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +84,47 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void signUpUser(String firstName, String lastName, String email, String username, String password) {
+        String url = "http://coms-3090-056.class.las.iastate.edu:8080/users";
+
         JSONObject json = new JSONObject();
         try {
-        json.put("firstName", username);   // using username as firstName (adjust as needed)
-        json.put("lastName", "");          // leave blank if not collected
-        json.put("email", email);
-        json.put("password", password);
-        } catch (JSONException e) {
+            json.put("name", firstName + " " + lastName);
+            json.put("emailId", email);
+            json.put("username", username);
+            json.put("userPassword", password);
+            json.put("ifActive", true);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                json,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley Response", response.toString());
+                        Toast.makeText(getApplicationContext(), "Signup Success!", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                        Toast.makeText(getApplicationContext(), "Signup Failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        // Add to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjReq);
     }
 }
