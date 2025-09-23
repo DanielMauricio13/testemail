@@ -116,13 +116,15 @@ public class UserController {
 
  
 
-    @PutMapping("/users/{id}/{password}")
-    User updateUser(@PathVariable int id, @PathVariable String password, @RequestBody User request){
+    @PutMapping("/users/{id}/{password}/{newPassword}")
+    User updateUser(@PathVariable int id, @PathVariable String password, @PathVariable String newPassword){
         User user = userRepository.findById(id);
 
         if(user == null || !user.getUserPassword().equals(password))
             return null;
-        userRepository.save(request);
+
+        user.setUserPassword(newPassword);
+        userRepository.save(user);
         return userRepository.findById(id);
     }
 
