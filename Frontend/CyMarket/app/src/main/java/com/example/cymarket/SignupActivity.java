@@ -80,6 +80,9 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Signing Up", Toast.LENGTH_LONG).show();
                             signUpUser(firstName, lastName, email, username, password);
 
+                            // @GetMapping(path = "/loginEmail/{email}/{password}/")
+                            // @GetMapping(path = "/us/{username}/{password}/")
+
                             // Go to login screen after signup
                             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                             startActivity(intent);

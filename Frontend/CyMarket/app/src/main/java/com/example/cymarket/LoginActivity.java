@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
 import com.example.cymarket.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,8 +39,32 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);  // go to SignupActivity
+                checkUserExists(username, new SignupActivity.VolleyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        // Expand on this part when backend uncomments the get mapping for username/pass
+                        checkUserCredentials(username, password);
+
+
+
+
+
+
+
+                        // Username does exist → proceed with login identification
+                        Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
+
+                        // Go to main screen after login
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // Username isn't in the system/credentials wrong, cannot login
+                        Toast.makeText(getApplicationContext(), "Username Not Recognized", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
@@ -50,5 +77,47 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);  // go to SignupActivity
             }
         });
+    }
+
+    private void checkUserCredentials(String username, String password) {
+        // "/loginEmail/{email}/{password}/"
+        String url = "http://coms-3090-056.class.las.iastate.edu:8080/users/us/" + username + "/" + password;
+
+
+
+
+
+
+    }
+
+    private void checkUserExists(String username, SignupActivity.VolleyCallback callback) {
+        String url = "http://coms-3090-056.class.las.iastate.edu:8080/users/u/" + username;
+
+        // Had to update to a string request, since currently the backend code sends NULL if user isn't found instead of a 404 error code...
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    // response might be "null" (literally the string "null")
+                    if (response == null || response.equals("null") || response.isEmpty()) {
+                        // user NOT found → safe to signup
+                        callback.onFailure();
+                    } else {
+                        // user exists
+                        Toast.makeText(getApplicationContext(),
+                                "Account Already Created Under This Username!",
+                                Toast.LENGTH_SHORT).show();
+                        callback.onSuccess();
+                    }
+                },
+                error -> {
+                    Toast.makeText(getApplicationContext(),
+                            "Failed to check username: " + error.toString(),
+                            Toast.LENGTH_SHORT).show();
+                    callback.onFailure();
+                }
+        );
+
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 }
