@@ -19,15 +19,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String emailId;
+    
     private Date joiningDate;
     private boolean ifActive;
     private String UserPassword;
     private Date lastLoggin;
 
-
     @Column(unique = true)
     private String username;
+    
+    @Column(unique = true)
+    private String emailId;
 
      @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
