@@ -60,13 +60,13 @@ public class UserController {
     }
 
 
-//    @GetMapping(path = "/loginEmail/{email}/{password}/")
-//    User getUserById( @PathVariable String email, @PathVariable String password){
-//        User temp= userRepository.findByEmailId(email);
-//        if (temp.getUserPassword().equals(password))
-//            return temp;
-//        return null;
-//    }
+   @GetMapping(path = "/loginEmail/{email}/{password}/")
+   User getUserByEmail(@PathVariable String email, @PathVariable String password){
+       User temp = userRepository.findByEmailId(email);
+       if (temp.getUserPassword().equals(password))
+           return temp;
+       return null;
+   }
 //    @GetMapping(path = "/us/{username}/{password}/")
 //    User getUserByUsername( @PathVariable String username, @PathVariable String password){
 //        User temp= userRepository.findByUsername(username);
