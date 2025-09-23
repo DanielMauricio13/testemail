@@ -39,19 +39,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username: "
+            android:text="ISU email: "
             android:textSize="20dp"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/buttons_1_color">
         </TextView>
 
         <EditText
-            android:id="@+id/login_username_edt"
+            android:id="@+id/login_email_edt"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/buttons_2_color"
-            android:hint="Enter Username Here">
+            android:hint="Enter Email Here">
         </EditText>
 
     </LinearLayout>
