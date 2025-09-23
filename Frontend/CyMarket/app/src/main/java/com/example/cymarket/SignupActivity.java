@@ -15,6 +15,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,16 +73,97 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Passwords Don't Match", Toast.LENGTH_LONG).show();
                 } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please Fill Out All Fields", Toast.LENGTH_LONG).show();
-                } else { // Now it will sign up the user if everything passes
-                    Toast.makeText(getApplicationContext(), "Signing Up", Toast.LENGTH_LONG).show();
-                    signUpUser(firstName, lastName, email, username, password);
+                } else {
+                    checkUserExists(username, new VolleyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            // Email does NOT exist → proceed with signup
+                            Toast.makeText(getApplicationContext(), "Signing Up", Toast.LENGTH_LONG).show();
+                            signUpUser(firstName, lastName, email, username, password);
 
-                    // Set the screen to the login screen when the account is created:
-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                            // Go to login screen after signup
+                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            // Email already exists OR error handled by toast in makeJsonObjReq
+                        }
+                    });
                 }
             }
         });
+    }
+
+    // Interface to run the code after the request is finished
+    public interface VolleyCallback {
+        void onSuccess();
+        void onFailure();
+    }
+
+    private void checkUserExists(String username, VolleyCallback callback) {
+        String url = "http://coms-3090-056.class.las.iastate.edu:8080/users/u/" + username;
+
+//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+//                Request.Method.GET,
+//                url,
+//                null, // GET has no body
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        if (response != null && response.length() > 0) {
+//                            Toast.makeText(getApplicationContext(),
+//                                    "Account Already Created Under This Username!",
+//                                    Toast.LENGTH_SHORT).show();
+//                            callback.onFailure();
+//                        } else {
+//                            callback.onSuccess();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
+//                            // 404 = user not found → safe to signup
+//                            callback.onSuccess();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),
+//                                    "Failed to check username: " + error.toString(),
+//                                    Toast.LENGTH_SHORT).show();
+//                            callback.onFailure();
+//                        }
+//                    }
+//                }
+//        );
+
+        // Had to update to a string request, since currently the backend code sends NULL if user isn't found instead of a 404 error code...
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    // response might be "null" (literally the string "null")
+                    if (response == null || response.equals("null") || response.isEmpty()) {
+                        // user NOT found → safe to signup
+                        callback.onSuccess();
+                    } else {
+                        // user exists
+                        Toast.makeText(getApplicationContext(),
+                                "Account Already Created Under This Username!",
+                                Toast.LENGTH_SHORT).show();
+                        callback.onFailure();
+                    }
+                },
+                error -> {
+                    Toast.makeText(getApplicationContext(),
+                            "Failed to check username: " + error.toString(),
+                            Toast.LENGTH_SHORT).show();
+                    callback.onFailure();
+                }
+        );
+
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
     private void signUpUser(String firstName, String lastName, String email, String username, String password) {
