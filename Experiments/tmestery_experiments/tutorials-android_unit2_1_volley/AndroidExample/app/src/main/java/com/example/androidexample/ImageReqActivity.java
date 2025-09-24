@@ -21,7 +21,7 @@ public class ImageReqActivity extends AppCompatActivity {
     private ImageView imageView;
 
     // Define the URL of the image to be requested
-    public static final String URL_IMAGE = "http://sharding.org/outgoing/temp/testimg3.jpg";
+    public static final String URL_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class ImageReqActivity extends AppCompatActivity {
                 }
         );
 
+        Log.d("Volley", "Adding image request to queue...");
         // Add the ImageRequest to the Volley request queue for processing
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(imageRequest);
     }
