@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView messageText;   // define message textview variable
-    private TextView usernameText;  // define username textview variable
     private Button loginButton;     // define login button variable
     private Button signupButton;    // define signup button variable
     private Button profileButton;  // define profile button variable
@@ -23,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);             // link to Main activity XML
 
         // Initialize UI elements:
-        messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-        usernameText = findViewById(R.id.main_username_txt);// link to username textview in the Main activity XML
 
         // Link all the buttons:
         loginButton = findViewById(R.id.main_login_btn);
@@ -32,19 +28,6 @@ public class MainActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.main_profiles_btn);
         messagesButton = findViewById(R.id.main_messages_btn);
         settingsButton = findViewById(R.id.main_settings_btn);
-
-
-        // Extract data passed into this activity from another activity:
-        Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            messageText.setText("Home Page");
-            usernameText.setVisibility(View.INVISIBLE);             // set username text invisible initially
-        } else {
-            messageText.setText("Welcome");
-            usernameText.setText(extras.getString("USERNAME")); // this will come from LoginActivity
-            loginButton.setVisibility(View.INVISIBLE);              // set login button invisible
-            signupButton.setVisibility(View.INVISIBLE);             // set signup button invisible
-        }
 
         // Click listener on login button pressed:
         loginButton.setOnClickListener(new View.OnClickListener() {
