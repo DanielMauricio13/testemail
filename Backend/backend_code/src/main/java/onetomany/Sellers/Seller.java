@@ -10,15 +10,21 @@ public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
+    @NotBlank(message = "Username cannot be blank")
+    @Size(min = 3, max = 20, message = "Username must be between 3–20 characters")
+    @Column(nullable = false, unique = true)
     private String username;
-
+    @Size(max = 255, message = "Bio cannot exceed 250 characters")
     private String bio;
+    @DecimalMin(value = "0.0", message = "Rating cannot be negative")
+    @DecimalMax(value = "5.0", message = "Rating cannot exceed 5.0")
     private Double rating;
+    @Min(value = 0, message = "Ratings count cannot be negative")
     private Integer ratingsCount;
+    @Min(value = 0, message = "Total sales cannot be negative")
     private Integer totalSales;
     private Boolean active;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     public Seller() {

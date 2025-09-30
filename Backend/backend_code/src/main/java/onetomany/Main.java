@@ -17,7 +17,7 @@ import onetomany.Users.UserRepository;
 
 
 @SpringBootApplication
-//@EnableSwagger2
+//@EnableSwagger2g
 class Main {
 
     public static void main(String[] args) {
