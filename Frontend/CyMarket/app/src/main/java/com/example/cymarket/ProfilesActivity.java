@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +13,7 @@ public class ProfilesActivity extends AppCompatActivity {
     private Button homeButton;  // define profile button variable
     private Button messagesButton;  // define messages button variable
     private Button settingsButton;  // define settings button variable
-
+    private TextView usernameText; // define the display username text
     private Button notificationsButton; // define notfications button variable
 
     @Override
@@ -24,7 +25,18 @@ public class ProfilesActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.prfls_home_page_btn);
         messagesButton = findViewById(R.id.prfls_messages_btn);
         settingsButton = findViewById(R.id.prfls_setting_btn);
+        usernameText = findViewById(R.id.username_text);
         notificationsButton = findViewById(R.id.prfls_notifs_btn);
+
+        // Collect the username and save it
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("email");
+
+        if (username != null) {
+            usernameText.setText(username);
+        } else {
+            usernameText.setText("no username");
+        }
 
         // Click listener on home button pressed:
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -64,11 +76,6 @@ public class ProfilesActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -86,6 +93,5 @@ public class ProfilesActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }

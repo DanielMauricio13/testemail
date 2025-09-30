@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                                 "Login successful!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("email", email);
                         startActivity(intent);
                         finish();
                     }

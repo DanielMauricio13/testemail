@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/profile_image_view"
+        android:layout_marginTop="40dp"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/big_block_background" />
+
     <TextView
-        android:id="@+id/msgs_msg_txt"
+        android:id="@+id/username_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profiles"
+        android:text="USERNAME"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:textSize="30dp"
-        android:textColor="#fc0303">
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="80dp"
+        android:textSize="18dp"
+        android:textColor="#E63946">
     </TextView>
 
     <Button
@@ -23,7 +32,8 @@
         android:layout_gravity="center"
         android:text="Home"
         android:textSize="20sp"
-        android:textColor="#ffffff">
+        android:backgroundTint="#E63946"
+        android:textColor="@color/white">
     </Button>
 
     <Button
@@ -33,7 +43,8 @@
         android:layout_gravity="center"
         android:text="Messages"
         android:textSize="20sp"
-        android:textColor="#ffffff">
+        android:backgroundTint="#E63946"
+        android:textColor="@color/white">
     </Button>
 
     <Button
@@ -43,7 +54,8 @@
         android:layout_gravity="center"
         android:text="Settings"
         android:textSize="20sp"
-        android:textColor="#ffffff">
+        android:backgroundTint="#E63946"
+        android:textColor="@color/white">
     </Button>
 
     <Button
@@ -53,7 +65,7 @@
         android:layout_gravity="center"
         android:text="Notifs"
         android:textSize="20sp"
-        android:textColor="#ffffff">
+        android:backgroundTint="#E63946"
+        android:textColor="@color/white">
     </Button>
-
 </LinearLayout>
