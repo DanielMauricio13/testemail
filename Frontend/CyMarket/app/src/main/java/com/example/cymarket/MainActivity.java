@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         buyButton = findViewById(R.id.main_buy_btn);
         sellButton = findViewById(R.id.main_sell_btn);
         messagesButton = findViewById(R.id.main_messages_btn);
-        listingsButton = findViewById(R.id.main_listings_btn);
+//        listingsButton = findViewById(R.id.main_listings_btn);
         profileText = findViewById(R.id.main_profile_txt);
         settingsText = findViewById(R.id.main_settings_txt);
 
@@ -64,16 +64,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Click listener on settings button pressed:
-        listingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                /* when signup button is pressed, use intent to switch to Signup Activity */
-                Intent intent = new Intent(MainActivity.this, ListingsActivity.class);
-                startActivity(intent);
-            }
-        });
+//        // Click listener on settings button pressed:
+//        listingsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                /* when signup button is pressed, use intent to switch to Signup Activity */
+//                Intent intent = new Intent(MainActivity.this, ListingsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // Click listener on profile text button pressed:
         profileText.setOnClickListener(new View.OnClickListener() {
