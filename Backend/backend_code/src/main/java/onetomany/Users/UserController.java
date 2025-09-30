@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,9 +67,13 @@ public class UserController {
    @GetMapping(path = "/loginEmail/{email}/{password}/")
    User getUserByEmail(@PathVariable String email, @PathVariable String password){
        User temp = userRepository.findByEmailId(email);
-       if (temp.getUserPassword().equals(password))
-           return temp;
-       return null;
+    if (temp == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+    }
+    if (!temp.getUserPassword().equals(password)) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+    }
+    return temp;
    }
 //    @GetMapping(path = "/us/{username}/{password}/")
 //    User getUserByUsername( @PathVariable String username, @PathVariable String password){
