@@ -6,4 +6,9 @@
     <color name="foreground">#F75270</color>
     <color name="buttons_1_color">#DC143C</color>
     <color name="buttons_2_color">#F7CAC9</color>
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_variant">#303F9F</color>
+    <color name="background_light">#F5F5F5</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="card_border">#E0E0E0</color>
 </resources>
