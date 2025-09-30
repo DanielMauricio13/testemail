@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
-    // text variables
     private EditText firstNameText;   // define email edit
     private EditText lastNameText;   // define email edit
     private EditText emailEditText;   // define email edit
@@ -106,39 +105,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private void checkUserExists(String username, VolleyCallback callback) {
         String url = "http://coms-3090-056.class.las.iastate.edu:8080/users/u/" + username;
-
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-//                Request.Method.GET,
-//                url,
-//                null, // GET has no body
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        if (response != null && response.length() > 0) {
-//                            Toast.makeText(getApplicationContext(),
-//                                    "Account Already Created Under This Username!",
-//                                    Toast.LENGTH_SHORT).show();
-//                            callback.onFailure();
-//                        } else {
-//                            callback.onSuccess();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
-//                            // 404 = user not found → safe to signup
-//                            callback.onSuccess();
-//                        } else {
-//                            Toast.makeText(getApplicationContext(),
-//                                    "Failed to check username: " + error.toString(),
-//                                    Toast.LENGTH_SHORT).show();
-//                            callback.onFailure();
-//                        }
-//                    }
-//                }
-//        );
 
         // Had to update to a string request, since currently the backend code sends NULL if user isn't found instead of a 404 error code...
         StringRequest stringRequest = new StringRequest(

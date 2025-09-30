@@ -9,29 +9,32 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.cymarket.R;
+
+import org.json.JSONException;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText emailEditText;  // define username edittext variable
-    private EditText passwordEditText;  // define password edittext variable
-    private Button loginButton;         // define login button variable
-    private Button signupButton;        // define signup button variable
+    private EditText emailEditText; // define username edittext variable
+    private EditText passwordEditText; // define password edittext variable
+    private Button loginButton;  // define login button variable
+    private Button signupButton;  // define signup button variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);            // link to Login activity XML
+        setContentView(R.layout.activity_login);
 
         /* initialize UI elements */
         emailEditText = findViewById(R.id.login_email_edt);
         passwordEditText = findViewById(R.id.login_password_edt);
-        loginButton = findViewById(R.id.login_login_btn);    // link to login button in the Login activity XML
-        signupButton = findViewById(R.id.login_signup_btn);  // link to signup button in the Login activity XML
+        loginButton = findViewById(R.id.login_login_btn);
+        signupButton = findViewById(R.id.login_signup_btn);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,39 +57,39 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /* when signup button is pressed, use intent to switch to Signup Activity */
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);  // go to SignupActivity
+                startActivity(intent);
             }
         });
     }
 
     private void checkUserCredentials(String email, String password) {
-        // Encode email so @ becomes %40 and other special chars are safe
         String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
         String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8);
 
         String url = "http://coms-3090-056.class.las.iastate.edu:8080/loginEmail/"
                 + encodedEmail + "/" + encodedPassword + "/";
 
-        StringRequest stringRequest = new StringRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
+                null,
                 response -> {
-                    if (response == null || response.equals("null") || response.isEmpty()) {
-                        Toast.makeText(getApplicationContext(),
-                                "Invalid email or password", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Login successful!", Toast.LENGTH_SHORT).show();
+                    try {
+                        String fetchedUsername = response.getString("username");
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("username", fetchedUsername);
                         startActivity(intent);
                         finish();
+                    } catch (JSONException e) {
+                        Toast.makeText(getApplicationContext(),
+                                "Parse error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getApplicationContext(),
                         "Login failed: " + error.toString(), Toast.LENGTH_SHORT).show()
         );
 
-        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 }

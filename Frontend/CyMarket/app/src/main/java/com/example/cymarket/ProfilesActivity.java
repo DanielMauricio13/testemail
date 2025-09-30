@@ -1,91 +1,74 @@
 package com.example.cymarket;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.provider.MediaStore;
 import android.widget.Button;
-
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfilesActivity extends AppCompatActivity {
-
-    private Button homeButton;  // define profile button variable
-    private Button messagesButton;  // define messages button variable
-    private Button settingsButton;  // define settings button variable
-
-    private Button notificationsButton; // define notfications button variable
+    private Button homeButton;
+    private Button messagesButton;
+    private Button settingsButton;
+    private TextView usernameText;
+    private Button notificationsButton;
+    private static final int PICK_IMAGE = 1;
+    private ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profiles);
 
-        // Link all the buttons:
         homeButton = findViewById(R.id.prfls_home_page_btn);
         messagesButton = findViewById(R.id.prfls_messages_btn);
         settingsButton = findViewById(R.id.prfls_setting_btn);
-        notificationsButton = findViewById(R.id.prfls_notifs_btn);
+        usernameText = findViewById(R.id.username_text);
+//        notificationsButton = findViewById(R.id.prfls_notifs_btn);
+        profileImage = findViewById(R.id.profile_image_view);
 
-        // Click listener on home button pressed:
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfilesActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        // Display username
+        String username = getIntent().getStringExtra("username");
+        usernameText.setText(username);
+
+        // Button click listeners
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfilesActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
-        // Click listener on messages button pressed:
-        messagesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfilesActivity.this, MessagesActivity.class);
-                startActivity(intent);
-            }
+        messagesButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfilesActivity.this, MessagesActivity.class);
+            startActivity(intent);
         });
 
-        // Click listener on settings button pressed:
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfilesActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfilesActivity.this, SettingsActivity.class);
+            startActivity(intent);
         });
 
-        // Click listener on notifications button pressed:
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfilesActivity.this, NotificationsActivity.class);
-                startActivity(intent);
-            }
+//        notificationsButton.setOnClickListener(v -> {
+//            Intent intent = new Intent(ProfilesActivity.this, NotificationsActivity.class);
+//            startActivity(intent);
+//        });
+
+        // Open image picker on profile image click
+        profileImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, PICK_IMAGE);
         });
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            profileImage.setImageURI(imageUri);
+        }
     }
 }
