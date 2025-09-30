@@ -1,120 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".MainActivity"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background_light"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity">
 
-    <!-- Building layout for settings and profile a top of screen -->
+    <!-- Top Bar -->
     <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="100dp"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp"
+        android:background="?attr/colorSurface"
+        android:elevation="6dp">
 
         <TextView
             android:id="@+id/main_profile_txt"
-            android:layout_width="321dp"
-            android:layout_height="match_parent"
-            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/profile_art"
-            android:focusable="true"
+            android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:gravity="right"
-            android:padding="4dp"
-            android:textColor="@color/black" />
+            android:text="Profile"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Profile Navigation" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/main_settings_txt"
-            android:layout_width="59dp"
-            android:layout_height="match_parent"
-            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/settings_art"
-            android:focusable="true"
+            android:drawablePadding="10dp"
             android:fontFamily="sans-serif-medium"
-            android:gravity="right"
-            android:padding="4dp"
-            android:textColor="@color/black" />
+            android:text="Settings"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Settings Navigation" />
     </LinearLayout>
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:srcCompat="@drawable/logo2" />
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:srcCompat="@drawable/logo2"
+        android:scaleType="centerInside"
+        android:transitionName="logo_transition"
+        android:contentDescription="App Logo" />
 
-    <!-- Building block that supports the screen -->
+    <!-- Main Content Block -->
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/big_block_background"
-        android:elevation="12dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="200dp">
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
+        android:padding="24dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="32dp"
+        android:clipToOutline="true"
+        android:backgroundTint="?attr/colorSurface">
 
-        <Button
-            android:id="@+id/main_buy_btn"
-            android:layout_width="90dp"
+        <!-- Button Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/buttons_1_color"
-            android:text="Buy"
-            android:textColor="#ffffff"
-            android:textSize="8sp"></Button>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="3"
+            android:layout_marginBottom="12dp">
 
-        <Button
-            android:id="@+id/main_sell_btn"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/buttons_1_color"
-            android:text="Sell"
-            android:textColor="#ffffff"
-            android:textSize="8sp"></Button>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_buy_btn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="56dp"
+                android:layout_marginEnd="8dp"
+                android:text="Buy"
+                android:textSize="16sp"
+                app:cornerRadius="16dp"
+                app:iconPadding="8dp"
+                android:elevation="4dp"
+                android:contentDescription="Buy Items" />
 
-        <Button
-            android:id="@+id/main_messages_btn"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/buttons_1_color"
-            android:text="Messages"
-            android:textColor="#ffffff"
-            android:textSize="8sp"></Button>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_sell_btn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="56dp"
+                android:layout_marginEnd="8dp"
+                android:text="Sell"
+                android:textSize="16sp"
+                app:cornerRadius="16dp"
+                app:iconPadding="8dp"
+                android:contentDescription="Sell Items" />
 
-        <Button
-            android:id="@+id/main_listings_btn"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/buttons_1_color"
-            android:text="Listings"
-            android:textColor="#ffffff"
-            android:textSize="8sp"></Button>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_messages_btn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="56dp"
+                android:text="Chat"
+                android:textSize="16sp"
+                app:cornerRadius="16dp"
+                app:iconPadding="8dp"
+                android:elevation="4dp"
+                android:contentDescription="View Messages" />
+        </LinearLayout>
     </LinearLayout>
 
+    <!-- Footer -->
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/black"
-        android:text="Featured Categories" />
-
-    <TextView
-        android:id="@+id/textView"
+        android:id="@+id/footer_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Safe. Simple. ISU Only."
+        android:fontFamily="sans-serif-light"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="14sp"
-        android:textColor="@color/black"
-        android:fontFamily="sans-serif-medium"
-        android:padding="4dp"
-        android:layout_marginTop="2dp"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:contentDescription="App Tagline" />
+</LinearLayout>
