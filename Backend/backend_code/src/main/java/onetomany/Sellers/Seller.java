@@ -1,12 +1,7 @@
 package onetomany.Sellers;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
+import jakarta.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -20,7 +15,8 @@ public class Seller {
     @Size(min = 3, max = 20, message = "Username must be between 3–20 characters")
     @Column(nullable = false, unique = true)
     private String username;
-    @Size(max = 255, message = "Bio cannot exceed 250 characters")
+    @Column(length = 250)
+    @Size(max = 250, message = "Bio cannot exceed 250 characters")
     private String bio;
     @DecimalMin(value = "0.0", message = "Rating cannot be negative")
     @DecimalMax(value = "5.0", message = "Rating cannot exceed 5.0")
@@ -39,11 +35,6 @@ public class Seller {
     public Seller(String username, String bio) {
         this.username = username;
         this.bio = bio;
-        this.rating = 0.0;
-        this.ratingsCount = 0;
-        this.totalSales = 0;
-        this.active = true;
-        this.createdAt = new Date();
     }
 
 

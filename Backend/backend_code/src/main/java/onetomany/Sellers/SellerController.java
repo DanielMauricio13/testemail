@@ -1,145 +1,156 @@
 package onetomany.Sellers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-
+import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Validator;
+import jakarta.validation.ConstraintViolationException;
 
 import java.util.*;
 
+@Validated
 @RestController
 @RequestMapping("/sellers")
 public class SellerController {
 
-    private final SellerRepository sellers;
+    @Autowired
+    private SellerRepository sellerRepository;
 
-    public SellerController(SellerRepository sellers) {
-        this.sellers = sellers;
-    }
-
-    // read
+    // GET all sellers
     @GetMapping
     public List<Seller> getAll() {
-        return sellers.findAll();
+        return sellerRepository.findAll();
     }
 
+    // GET seller by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Seller> getById(@PathVariable Long id) {
-        return sellers.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Seller getById(@PathVariable long id) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not found");
+        }
+        return seller;
     }
 
-    // lookup by username
+    // GET seller by username
     @GetMapping("/u/{username}")
-    public ResponseEntity<Seller> getByUsername(@PathVariable String username) {
-        return sellers.findByUsername(username)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Seller getByUsername(@PathVariable String username) {
+        Seller seller = sellerRepository.findByUsername(username);
+        if (seller == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not found");
+        }
+        return seller;
     }
 
-    // create
+    // Check if username exists
+    @GetMapping("/exists")
+    public Map<String, Boolean> usernameExists(@RequestParam("username") String username) {
+        return Map.of("exists", sellerRepository.existsByUsername(username));
+    }
+
+    // CREATE new seller
     @PostMapping
     public ResponseEntity<Seller> create(@Valid @RequestBody Seller seller) {
-        if (seller.getUsername() == null || seller.getUsername().isBlank()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        if (sellerRepository.existsByUsername(seller.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
-        if (sellers.existsByUsername(seller.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        
+        // Set defaults for null fields
+        if (seller.getCreatedAt() == null) {
+            seller.setCreatedAt(new Date());
         }
-
-        // initialize defaults (you can later move these to @PrePersist in the entity)
-        if (seller.getCreatedAt() == null) seller.setCreatedAt(new Date());
-        if (seller.getActive() == null) seller.setActive(true);
-        if (seller.getRating() == null) seller.setRating(0.0);
-        if (seller.getRatingsCount() == null) seller.setRatingsCount(0);
-        if (seller.getTotalSales() == null) seller.setTotalSales(0);
-
-        Seller saved = sellers.save(seller);
-        return ResponseEntity.status(HttpStatus.CREATED).header("Location", "/sellers/" + saved.getId()).body(saved);
+        if (seller.getActive() == null) {
+            seller.setActive(true);
+        }
+        
+        Seller saved = sellerRepository.save(seller);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // update
+    // UPDATE seller
     @PutMapping("/{id}")
-    public ResponseEntity<Seller> replace(
-            @PathVariable Long id,
-            @Valid @RequestBody Seller incoming
-    ) {
-        Optional<Seller> existingOpt = sellers.findById(id);
-        if (existingOpt.isEmpty()) return ResponseEntity.notFound().build();
-
-        Seller current = existingOpt.get();
-
-        if (incoming.getUsername() == null || incoming.getUsername().isBlank()) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<Seller> update(@PathVariable long id, @Valid @RequestBody Seller incoming) {
+        Seller current = sellerRepository.findById(id);
+        if (current == null) {
+            return ResponseEntity.notFound().build();
         }
-        if (!incoming.getUsername().equals(current.getUsername())
-                && sellers.existsByUsername(incoming.getUsername())) {
+        
+        // Check for username conflict
+        if (!incoming.getUsername().equals(current.getUsername()) 
+            && sellerRepository.existsByUsername(incoming.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        if (incoming.getRating() != null && (incoming.getRating() < 0.0 || incoming.getRating() > 5.0)) {
-            return ResponseEntity.badRequest().build();
-        }
+
+        // Update fields
         current.setUsername(incoming.getUsername());
         current.setBio(incoming.getBio());
         current.setActive(incoming.getActive() != null ? incoming.getActive() : current.getActive());
         current.setRating(incoming.getRating() != null ? incoming.getRating() : current.getRating());
         current.setRatingsCount(incoming.getRatingsCount() != null ? incoming.getRatingsCount() : current.getRatingsCount());
         current.setTotalSales(incoming.getTotalSales() != null ? incoming.getTotalSales() : current.getTotalSales());
-        if (incoming.getCreatedAt() != null) current.setCreatedAt(incoming.getCreatedAt());
+        
+        if (incoming.getCreatedAt() != null) {
+            current.setCreatedAt(incoming.getCreatedAt());
+        }
+        
+        return ResponseEntity.ok(sellerRepository.save(current));
+    }
 
-        return ResponseEntity.ok(sellers.save(current));
-    }
-    // checks if exists
-    @GetMapping("/exists")
-    public Map<String, Boolean> usernameExists(@RequestParam("username") String username) {
-        return Map.of("exists", sellers.existsByUsername(username));
-    }
-    // Delete
+    // DELETE seller
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!sellers.existsById(id)) return ResponseEntity.notFound().build();
-        sellers.deleteById(id);
+        if (!sellerRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        sellerRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Rate seller
+    // Rate seller (add a new rating)
     @PostMapping("/{id}/rate")
-    public ResponseEntity<Seller> addRating(@PathVariable Long id, @RequestParam double value) {
-        Optional<Seller> opt = sellers.findById(id);
-        if (opt.isEmpty()) return ResponseEntity.notFound().build();
-        if (value < 0.0 || value > 5.0) return ResponseEntity.badRequest().build();
+    public ResponseEntity<Seller> addRating(
+            @PathVariable long id,
+            @DecimalMin("0.0") @DecimalMax("5.0") @RequestParam double value) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        // Initialize if null
+        if (seller.getRatingsCount() == null) {
+            seller.setRatingsCount(0);
+        }
+        if (seller.getRating() == null) {
+            seller.setRating(0.0);
+        }
+        
+        // Calculate new average rating
+        double totalRating = seller.getRating() * seller.getRatingsCount() + value;
+        seller.setRatingsCount(seller.getRatingsCount() + 1);
+        seller.setRating(totalRating / seller.getRatingsCount());
 
-        Seller s = opt.get();
-        if (s.getRatingsCount() == null) s.setRatingsCount(0);
-        if (s.getRating() == null) s.setRating(0.0);
-        double total = s.getRating() * s.getRatingsCount() + value;
-        s.setRatingsCount(s.getRatingsCount() + 1);
-        s.setRating(total / s.getRatingsCount());
-
-        return ResponseEntity.ok(sellers.save(s));
+        return ResponseEntity.ok(sellerRepository.save(seller));
     }
 
+    // Increment sale count
     @PostMapping("/{id}/sale")
-    public ResponseEntity<Seller> incrementSale(@PathVariable Long id) {
-        return sellers.findById(id)
-                .map(s -> {
-                    if (s.getTotalSales() == null) s.setTotalSales(0);
-                    s.setTotalSales(s.getTotalSales() + 1);
-                    return ResponseEntity.ok(sellers.save(s));
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidationErrors(org.springframework.web.bind.MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors()
-                .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
-        return errors;
+    public ResponseEntity<Seller> incrementSale(@PathVariable long id) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        if (seller.getTotalSales() == null) {
+            seller.setTotalSales(0);
+        }
+        seller.setTotalSales(seller.getTotalSales() + 1);
+        
+        return ResponseEntity.ok(sellerRepository.save(seller));
     }
 }
