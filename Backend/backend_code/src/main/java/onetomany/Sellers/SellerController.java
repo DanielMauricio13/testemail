@@ -112,7 +112,7 @@ public class SellerController {
         return ResponseEntity.noContent().build();
     }
 
-    // Rate seller (add a new rating)
+    // Rate seller
     @PostMapping("/{id}/rate")
     public ResponseEntity<Seller> addRating(
             @PathVariable long id,
@@ -122,7 +122,7 @@ public class SellerController {
             return ResponseEntity.notFound().build();
         }
         
-        // Initialize if null
+        // if null initialize
         if (seller.getRatingsCount() == null) {
             seller.setRatingsCount(0);
         }
@@ -130,7 +130,7 @@ public class SellerController {
             seller.setRating(0.0);
         }
         
-        // Calculate new average rating
+        // Calculate average rating
         double totalRating = seller.getRating() * seller.getRatingsCount() + value;
         seller.setRatingsCount(seller.getRatingsCount() + 1);
         seller.setRating(totalRating / seller.getRatingsCount());
