@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText; // define password edittext variable
     private Button loginButton;  // define login button variable
     private Button signupButton;  // define signup button variable
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.login_password_edt);
         loginButton = findViewById(R.id.login_login_btn);
         signupButton = findViewById(R.id.login_signup_btn);
+        forgotPassword = findViewById(R.id.forgot_password);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +46,16 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     checkUserCredentials(email, password);
                 }
+            }
+        });
+
+        /* click listener on forgot password button */
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* when signup button is pressed, use intent to switch to Signup Activity */
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -116,4 +116,17 @@
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-medium"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="4dp"
+        android:layout_marginTop="12dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>
