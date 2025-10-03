@@ -8,6 +8,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
+// Gonna need to update others to use this, can make code more organized
 public interface ApiService {
     @Multipart
     @POST("/users/{username}/profile-image")

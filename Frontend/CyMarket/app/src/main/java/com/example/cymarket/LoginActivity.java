@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* when signup button is pressed, use intent to switch to Signup Activity */
-                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent2);
             }
         });
 

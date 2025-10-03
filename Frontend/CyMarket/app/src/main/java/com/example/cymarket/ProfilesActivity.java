@@ -95,6 +95,7 @@ public class ProfilesActivity extends AppCompatActivity {
         return byteBuffer.toByteArray();
     }
 
+    // Might need to change backend, hard to change from URI to JPG image
     private void addProfilePic(String username, Uri imageUri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(imageUri);
