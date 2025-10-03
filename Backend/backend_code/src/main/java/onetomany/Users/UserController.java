@@ -63,6 +63,14 @@ public class UserController {
       return userRepository.findByUsername(username);
     }
 
+    @GetMapping(path = "/users/joinDate/{id}")
+    Date getUserJoinDate (@PathVariable int id){
+        User temp = userRepository.findById(id);
+        if (temp == null) 
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        return userRepository.findById(id).getJoiningDate();
+    }
+
 
    @GetMapping(path = "/loginEmail/{email}/{password}/")
    User getUserByEmail(@PathVariable String email, @PathVariable String password){
