@@ -12,8 +12,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buyButton;     // define login button variable
     private Button sellButton;  // define profile button variable
     private Button messagesButton;  // define messages button variable
-    private TextView profileText; // define profile text button
-    private TextView settingsText; // define profile text button
+    private Button profileText; // define profile text button
+    private Button settingsText; // define profile text button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         buyButton = findViewById(R.id.main_buy_btn);
         sellButton = findViewById(R.id.main_sell_btn);
         messagesButton = findViewById(R.id.main_messages_btn);
-        profileText = findViewById(R.id.main_profile_txt);
-        settingsText = findViewById(R.id.main_settings_txt);
+        profileText = findViewById(R.id.main_profile_btn);
+        settingsText = findViewById(R.id.main_settings_btn);
 
         String username = getIntent().getStringExtra("username");
 
