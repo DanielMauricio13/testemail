@@ -1,25 +1,18 @@
 package onetomany.Items;
 
+import onetomany.Sellers.Seller;
+import onetomany.Sellers.SellerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-
-import org.springframework.http.MediaType;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.beans.factory.annotation.Autowired;
-
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
-import java.io.IOException;
+import java.util.Map;
 
 /**
  *
@@ -28,34 +21,33 @@ import java.io.IOException;
  */
 
 @RestController
+@RequestMapping("/items")
 public class ItemsController {
 
     @Autowired
     ItemsRepository itemsRepository;
-
-
+    @Autowired
+    private SellerRepository sellerRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
-    @GetMapping(path = "/items")
+    @GetMapping  // Remove "/items" - already in @RequestMapping
     List<Item> getAllItems(){
        
         return itemsRepository.findAll();
     }
-    @GetMapping(path = "/items/{id}")
+    @GetMapping("/{id}")  // Remove "/items" prefix
     Item getAllUser(@PathVariable int id){
-
-
         return  itemsRepository.findById(id);
     }
 
-    @GetMapping(path = "/items/u/{username}")
+    @GetMapping("/u/{username}")  // Remove "/items" prefix
     Item getUser (@PathVariable String username){
       return itemsRepository.findByUsername(username);
     }
 
-    @PostMapping(path = "/items")
+    @PostMapping  // Remove "/items" prefix
     String createItem(@RequestBody Item item){
         if (item == null)
             return failure;
@@ -66,25 +58,40 @@ public class ItemsController {
         return success;
     }
 
- 
+    // POST create item for a seller
+    @PostMapping(path = "/seller/{sellerId}")
+    ResponseEntity<Item> createItemWithSeller(@PathVariable long sellerId, @RequestBody Item item) {
+        Seller seller = sellerRepository.findById(sellerId);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-    @PutMapping("/items/{id}")
-    Item updateItem(@PathVariable int id, @RequestBody Item request){
+        if (item == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        item.setCreationDate(new Date());
+        item.setIfAvailable(true);
+        seller.addItem(item);
+        Item savedItem = itemsRepository.save(item);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+    }
+
+    @PutMapping("/{id}")
+    Item updateItem(@PathVariable int id, @RequestBody Item request) {
         Item item = itemsRepository.findById(id);
 
-        if(item == null)
+        if (item == null)
             return null;
         itemsRepository.save(request);
         return itemsRepository.findById(id);
     }
 
 
-
-
-
-    @DeleteMapping(path = "/items/{id}")
-    String deleteItem(@PathVariable int id){
-        Item temp= itemsRepository.findById(id);
+    @DeleteMapping(path = "/{id}")
+    String deleteItem(@PathVariable int id) {
+        Item temp = itemsRepository.findById(id);
         if (temp == null)
             return failure;
 
@@ -109,7 +116,6 @@ public class ItemsController {
         }
     }
 
- 
 
     @GetMapping("/items/{id}/profile-image")
     public ResponseEntity<byte[]> getProfileImage(@PathVariable int id) {
@@ -134,14 +140,26 @@ public class ItemsController {
         itemsRepository.save(item);
         return "Profile image deleted successfully";
     }
+
     //test
+    // GET seller info for an item
+    @GetMapping("/{id}/seller")
+    public ResponseEntity<Map<String, Object>> getItemSeller(@PathVariable int id) {
+        Item item = itemsRepository.findById(id);
+        if (item == null || item.getSeller() == null) {
+            return ResponseEntity.notFound().build();
+        }
 
+        Seller seller = item.getSeller();
+        Map<String, Object> sellerInfo = Map.of(
+                "id", seller.getId(),
+                "username", seller.getUsername(),
+                "rating", seller.getRating() != null ? seller.getRating() : 0.0,
+                "totalSales", seller.getTotalSales() != null ? seller.getTotalSales() : 0
+        );
 
-    
-
-   
-    
+        return ResponseEntity.ok(sellerInfo);
+    }
 
 
 }
-

@@ -1,16 +1,16 @@
 package onetomany.Sellers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import onetomany.Items.Item;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="Sellers")
+@Table(name = "Sellers")
 public class Seller {
 
     @Id
@@ -20,7 +20,8 @@ public class Seller {
     @Size(min = 3, max = 20, message = "Username must be between 3–20 characters")
     @Column(nullable = false, unique = true)
     private String username;
-    @Size(max = 255, message = "Bio cannot exceed 250 characters")
+    @Column(length = 250)
+    @Size(max = 250, message = "Bio cannot exceed 250 characters")
     private String bio;
     @DecimalMin(value = "0.0", message = "Rating cannot be negative")
     @DecimalMax(value = "5.0", message = "Rating cannot exceed 5.0")
@@ -33,17 +34,16 @@ public class Seller {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Item> items = new ArrayList<>();
+
     public Seller() {
     }
 
     public Seller(String username, String bio) {
         this.username = username;
         this.bio = bio;
-        this.rating = 0.0;
-        this.ratingsCount = 0;
-        this.totalSales = 0;
-        this.active = true;
-        this.createdAt = new Date();
     }
 
 
@@ -109,5 +109,27 @@ public class Seller {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public int getItemsCount() {
+        return items.size();
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+        item.setSeller(this);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+        item.setSeller(null);
     }
 }
