@@ -1,158 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@color/background_light"
-    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
-    <!-- Top Bar -->
+    <!-- Top-bar -->
     <LinearLayout
-        android:layout_marginTop="50dp"
+        android:id="@+id/top_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="12dp"
+        android:gravity="center_horizontal"
         android:background="?attr/colorSurface"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
         android:elevation="6dp">
 
-        <TextView
-            android:id="@+id/main_profile_txt"
+        <!-- Profile Button (left) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_profile_btn"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/profile_art"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_height="44dp"
             android:text="Profile"
-            android:textColor="#E63946"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:backgroundTint="#E63946"
+            app:cornerRadius="20dp"
+            android:elevation="6dp"
+            android:layout_marginEnd="180dp"
             android:contentDescription="Profile Navigation" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/main_settings_txt"
+        <!-- Settings Button (right) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_settings_btn"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/settings_art"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_height="44dp"
             android:text="Settings"
-            android:textColor="#E63946"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:backgroundTint="#E63946"
+            app:cornerRadius="20dp"
+            android:elevation="6dp"
             android:contentDescription="Settings Navigation" />
     </LinearLayout>
 
     <!-- Logo -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
+        android:layout_below="@id/top_nav"
+        android:layout_above="@id/bottom_nav"
+        android:layout_width="220dp"
         android:layout_height="400dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         app:srcCompat="@drawable/logo2"
         android:scaleType="centerInside"
         android:transitionName="logo_transition"
         android:contentDescription="App Logo" />
 
-    <!-- Main Content Block -->
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/card_background"
-        android:elevation="8dp"
-        android:padding="24dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="32dp"
-        android:clipToOutline="true"
-        android:backgroundTint="?attr/colorSurface">
-
-        <!-- Button Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="3"
-            android:layout_marginBottom="12dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/main_buy_btn"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="56dp"
-                android:layout_marginEnd="8dp"
-                android:text="Buy"
-                android:textSize="16sp"
-                app:cornerRadius="16dp"
-                app:iconPadding="8dp"
-                android:elevation="4dp"
-                android:textColor="@color/white"
-                android:backgroundTint="#E63946"
-                android:contentDescription="Buy Items" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/main_sell_btn"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="56dp"
-                android:layout_marginEnd="8dp"
-                android:text="Sell"
-                android:textSize="16sp"
-                app:cornerRadius="16dp"
-                android:textColor="#E63946"
-                app:iconPadding="8dp"
-                android:contentDescription="Sell Items" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/main_messages_btn"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="56dp"
-                android:text="Chat"
-                android:textSize="16sp"
-                app:cornerRadius="16dp"
-                app:iconPadding="8dp"
-                android:textColor="@color/white"
-                android:elevation="4dp"
-                android:backgroundTint="#E63946"
-                android:contentDescription="View Messages" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Footer -->
-    <TextView
-        android:id="@+id/footer_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Safe. Simple. ISU Only."
-        android:fontFamily="sans-serif-light"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="14sp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:contentDescription="App Tagline" />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemRippleColor="@color/buttons_2_color"
+        app:menu="@menu/bottom_nav_menu"
+        android:elevation="12dp" />
+</RelativeLayout>

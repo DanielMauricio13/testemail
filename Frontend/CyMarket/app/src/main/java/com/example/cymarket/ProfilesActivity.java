@@ -52,7 +52,12 @@ public class ProfilesActivity extends AppCompatActivity {
         String savedUri = prefs.getString("profile_image_uri", null);
         if (savedUri != null) {
             profileImage.setImageURI(Uri.parse(savedUri));
+        } else {
+            profileImage.setImageResource(R.drawable.pfp);
         }
+
+        // GET join date data here
+
 
         // Open image picker when profile image is clicked
         profileImage.setOnClickListener(v -> {
