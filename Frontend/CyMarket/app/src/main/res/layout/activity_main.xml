@@ -7,91 +7,50 @@
     android:background="@color/background_light"
     tools:context=".MainActivity">
 
-    <!-- Top Bar -->
+    <!-- Top-bar -->
     <LinearLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_horizontal"
         android:background="?attr/colorSurface"
         android:paddingHorizontal="12dp"
-        android:paddingVertical="10dp"
-        android:elevation="12dp">
+        android:paddingVertical="8dp"
+        android:elevation="6dp">
 
-        <!-- Profile Button (Left) -->
+        <!-- Profile Button (left) -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/main_profile_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:text="Profile"
-            android:textSize="15sp"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:backgroundTint="#E63946"
             app:cornerRadius="20dp"
-            app:iconPadding="6dp"
-            android:textColor="#E63946"
-            app:strokeColor="#E63946"
-            app:strokeWidth="2dp"
-            android:elevation="4dp"
-            android:layout_gravity="start"
+            android:elevation="6dp"
+            android:layout_marginEnd="180dp"
             android:contentDescription="Profile Navigation" />
 
-        <!-- Space between buttons and search bar -->
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <!-- Search Bar (Center) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_bar_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:hint="Search"
-            app:boxBackgroundColor="@color/white"
-            app:boxCornerRadiusTopStart="20dp"
-            app:boxCornerRadiusTopEnd="20dp"
-            app:boxCornerRadiusBottomStart="20dp"
-            app:boxCornerRadiusBottomEnd="20dp"
-            app:startIconDrawable="@android:drawable/ic_menu_search"
-            app:startIconTint="#E63946">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                android:textColor="#000"
-                android:hint="Search..."
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Space between search and settings -->
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <!-- Settings Button (Right) -->
+        <!-- Settings Button (right) -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/main_settings_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:text="Settings"
-            android:textSize="15sp"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:backgroundTint="#E63946"
             app:cornerRadius="20dp"
-            app:iconPadding="6dp"
-            android:textColor="#E63946"
-            app:strokeColor="#E63946"
-            app:strokeWidth="2dp"
-            android:elevation="4dp"
-            android:layout_gravity="end"
+            android:elevation="6dp"
             android:contentDescription="Settings Navigation" />
     </LinearLayout>
 
-    <!-- Logo (Centered Between Top & Bottom) -->
+    <!-- Logo -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_below="@id/top_nav"
@@ -106,65 +65,15 @@
         android:transitionName="logo_transition"
         android:contentDescription="App Logo" />
 
-    <!-- Bottom Navigation (Fixed at Bottom) -->
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:background="?attr/colorSurface"
-        android:elevation="12dp"
-        android:padding="12dp"
-        android:gravity="center"
-        android:weightSum="3">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/main_buy_btn"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
-            android:text="Buy"
-            android:textSize="16sp"
-            app:cornerRadius="20dp"
-            app:iconPadding="8dp"
-            android:elevation="6dp"
-            android:textColor="@color/white"
-            android:backgroundTint="#E63946"
-            android:contentDescription="Buy Items" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/main_sell_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
-            android:text="Sell"
-            android:textSize="16sp"
-            app:cornerRadius="20dp"
-            android:textColor="#E63946"
-            app:strokeColor="#E63946"
-            app:strokeWidth="2dp"
-            app:iconPadding="8dp"
-            android:contentDescription="Sell Items" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/main_messages_btn"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="56dp"
-            android:text="Chat"
-            android:textSize="16sp"
-            app:cornerRadius="20dp"
-            app:iconPadding="8dp"
-            android:textColor="@color/white"
-            android:elevation="6dp"
-            android:backgroundTint="#E63946"
-            android:contentDescription="View Messages" />
-    </LinearLayout>
-
+        android:background="@color/white"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemRippleColor="@color/buttons_2_color"
+        app:menu="@menu/bottom_nav_menu"
+        android:elevation="12dp" />
 </RelativeLayout>
