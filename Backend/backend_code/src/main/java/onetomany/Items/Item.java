@@ -1,19 +1,17 @@
-
 package onetomany.Items;
 
-import java.util.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import onetomany.Sellers.Seller;
 import onetomany.Users.User;
 
-
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
-@Table(name="Items")
+@Table(name = "Items")
 public class Item {
 
     @Id
@@ -25,7 +23,7 @@ public class Item {
     private Date creationDate;
     private boolean ifAvailable;
     private String category;
-    private int viewCount= 0;
+    private int viewCount = 0;
 
 
     @Column(unique = true)
@@ -36,69 +34,64 @@ public class Item {
     @JoinColumn
     private Seller seller;
 
-   @ManyToMany
-   @JoinTable(
-          name = "user_liked_items",
-         joinColumns = @JoinColumn(name = "item_id"),
-         inverseJoinColumns = @JoinColumn(name = "user_id")
+    @ManyToMany
+    @JoinTable(
+            name = "user_liked_items",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> likedByUsers;
+    private Set<User> likedByUsers = new HashSet<>();
 
 
     @Lob
     private byte[] profileImage;
-    
-
-
-
-
- 
-
-
 
 
     // =============================== Constructors ================================== //
 
-public Item(String name, String description, double price, String category, String userName  ) {
+    public Item(String name, String description, double price, String category, String userName) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.creationDate = new Date();
         this.ifAvailable = true;
-    
-        this.category= category;
+
+        this.category = category;
 
         this.username = userName;
-        
-       
-    }
-    public void addLikedByUser(User user){
-        this.likedByUsers.add(user);
-    }
-    public Set<User> getLikedByUsers(){
-        return this.likedByUsers;
-    }
-      public int getLikedByUsersCount(){
-        return this.likedByUsers.size();
+
+
     }
 
     public Item() {
 
     }
 
-    public int getId(){
+    public void addLikedByUser(User user) {
+        this.likedByUsers.add(user);
+    }
+
+    public Set<User> getLikedByUsers() {
+        return this.likedByUsers;
+    }
+
+    public int getLikedByUsersCount() {
+        return this.likedByUsers.size();
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -110,15 +103,19 @@ public Item(String name, String description, double price, String category, Stri
         this.username = username;
     }
 
-    
 
     public String getDescription(){
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public double getPrice() {
         return price;
     }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -128,11 +125,11 @@ public Item(String name, String description, double price, String category, Stri
         return ifAvailable;
     }
 
-    public void setIfAvailable(boolean ifAvailable){
+    public void setIfAvailable(boolean ifAvailable) {
         this.ifAvailable = ifAvailable;
     }
 
-    public Date getCreationDate(){
+    public Date getCreationDate() {
         return creationDate;
     }
 
@@ -149,29 +146,35 @@ public Item(String name, String description, double price, String category, Stri
     }
 
 
-    
     public int getViewCount() {
         return viewCount;
     }
 
-
-    
-    public void addCount(){
-        this.viewCount++;
-    }
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
 
-
-    public void setProfileImage(byte[] profileImage) {
-        this.profileImage = profileImage;
+    public void addCount() {
+        this.viewCount++;
     }
-   
 
     public byte[] getProfileImage() {
         return profileImage;
     }
 
-    
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public Long getSellerId() {
+        return seller != null ? seller.getId() : null;
+    }
 }

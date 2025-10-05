@@ -1,11 +1,16 @@
 package onetomany.Sellers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import onetomany.Items.Item;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="Sellers")
+@Table(name = "Sellers")
 public class Seller {
 
     @Id
@@ -28,6 +33,10 @@ public class Seller {
     private Boolean active;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Item> items = new ArrayList<>();
 
     public Seller() {
     }
@@ -100,5 +109,27 @@ public class Seller {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public int getItemsCount() {
+        return items.size();
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+        item.setSeller(this);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+        item.setSeller(null);
     }
 }

@@ -3,16 +3,18 @@ package onetomany.Sellers;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import onetomany.Items.Item;
+import onetomany.Items.ItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import jakarta.validation.Validator;
-import jakarta.validation.ConstraintViolationException;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Validated
 @RestController
@@ -21,6 +23,8 @@ public class SellerController {
 
     @Autowired
     private SellerRepository sellerRepository;
+    @Autowired
+    private ItemsRepository itemsRepository;
 
     // GET all sellers
     @GetMapping
@@ -60,7 +64,7 @@ public class SellerController {
         if (sellerRepository.existsByUsername(seller.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
-        
+
         // Set defaults for null fields
         if (seller.getCreatedAt() == null) {
             seller.setCreatedAt(new Date());
@@ -68,7 +72,7 @@ public class SellerController {
         if (seller.getActive() == null) {
             seller.setActive(true);
         }
-        
+
         Seller saved = sellerRepository.save(seller);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -80,10 +84,10 @@ public class SellerController {
         if (current == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         // Check for username conflict
-        if (!incoming.getUsername().equals(current.getUsername()) 
-            && sellerRepository.existsByUsername(incoming.getUsername())) {
+        if (!incoming.getUsername().equals(current.getUsername())
+                && sellerRepository.existsByUsername(incoming.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
@@ -94,11 +98,11 @@ public class SellerController {
         current.setRating(incoming.getRating() != null ? incoming.getRating() : current.getRating());
         current.setRatingsCount(incoming.getRatingsCount() != null ? incoming.getRatingsCount() : current.getRatingsCount());
         current.setTotalSales(incoming.getTotalSales() != null ? incoming.getTotalSales() : current.getTotalSales());
-        
+
         if (incoming.getCreatedAt() != null) {
             current.setCreatedAt(incoming.getCreatedAt());
         }
-        
+
         return ResponseEntity.ok(sellerRepository.save(current));
     }
 
@@ -121,7 +125,7 @@ public class SellerController {
         if (seller == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         // if null initialize
         if (seller.getRatingsCount() == null) {
             seller.setRatingsCount(0);
@@ -129,7 +133,7 @@ public class SellerController {
         if (seller.getRating() == null) {
             seller.setRating(0.0);
         }
-        
+
         // Calculate average rating
         double totalRating = seller.getRating() * seller.getRatingsCount() + value;
         seller.setRatingsCount(seller.getRatingsCount() + 1);
@@ -145,12 +149,70 @@ public class SellerController {
         if (seller == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         if (seller.getTotalSales() == null) {
             seller.setTotalSales(0);
         }
         seller.setTotalSales(seller.getTotalSales() + 1);
-        
+
         return ResponseEntity.ok(sellerRepository.save(seller));
+    }
+
+    // GET items for a seller
+    @GetMapping("/{id}/items")
+    public ResponseEntity<List<Item>> getSellerItems(@PathVariable long id) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(seller.getItems());
+    }
+
+    //GET items count for a seller
+    @GetMapping("/{id}/items/count")
+    public ResponseEntity<Map<String, Integer>> getSellerItemsCount(@PathVariable long id) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(Map.of("count", seller.getItemsCount()));
+    }
+
+    // POST seller creates item
+    @PostMapping("/{id}/items")
+    public ResponseEntity<Item> createItemForSeller(@PathVariable long id, @RequestBody Item item) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (item.getCreationDate() == null) {
+            item.setCreationDate(new Date());
+        }
+        item.setIfAvailable(true);
+
+        seller.addItem(item);
+        Item savedItem = itemsRepository.save(item);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+    }
+
+    // DELETE seller deletes item
+    @DeleteMapping("/{sellerId}/items/{itemId}")
+    public ResponseEntity<Void> deleteSellerItem(@PathVariable long sellerId, @PathVariable int itemId) {
+        Seller seller = sellerRepository.findById(sellerId);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Item item = itemsRepository.findById(itemId);
+        if (item == null || !item.getSellerId().equals(sellerId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        seller.removeItem(item);
+        itemsRepository.delete(item);
+
+        return ResponseEntity.noContent().build();
     }
 }
