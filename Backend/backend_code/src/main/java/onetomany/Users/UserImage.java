@@ -13,6 +13,7 @@ public class UserImage {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    @Column(name = "data", columnDefinition = "LONGBLOB")
     private byte[] data;
 
     private String contentType;
