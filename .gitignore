@@ -203,3 +203,6 @@ fabric.properties
 
 # Build artifacts
 target/
+
+# Build artifacts
+target/
