@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import onetomany.Items.Item;
 import onetomany.Items.ItemsRepository;
+import onetomany.userLogIn.userLogin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
-
+import onetomany.userLogIn.*;
 /**
  *
  * @author Vivek Bengre
@@ -52,6 +53,9 @@ public class UserController {
     @Autowired
     private UserImageRepository userImageRepository;
 
+    @Autowired
+    private userLoginRepository userLoginRepository;
+
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
@@ -63,11 +67,20 @@ public class UserController {
     List<User> getAllUsersss(){
         return userRepository.findAll();
     }
+
     @GetMapping(path = "/users/{id}")
     User getAllUser(@PathVariable int id){
 
 
         return  userRepository.findById(id);
+    }
+    @GetMapping(path = "/users/getName/{email}")
+    String getName(@PathVariable String email){
+        User temp =  userRepository.findByEmailId(email);
+        if (temp == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return temp.getName();
     }
 
     @GetMapping(path = "/users/u/{username}")
@@ -124,6 +137,13 @@ public class UserController {
         user.setJoiningDate(new Date());
         user.setLastLoggin();
         user.setIfActive(true);
+        userRepository.save(user);
+
+        User temptest= userRepository.findUserByUsername(user.getUsername());
+        userLogin temp= new userLogin(user.getUsername(),user.getEmailId(),'n',user.getUserPassword());
+        temp.setUser(temptest);
+        temptest.setUserLogin(temp);
+        userLoginRepository.save(temp);
         userRepository.save(user);
 
         return success;
@@ -205,7 +225,25 @@ public class UserController {
     @DeleteMapping(path = "/users/{id}")
     String deleteUser(@PathVariable int id){
         User temp= userRepository.findById(id);
-      
+
+        if(temp == null)
+            return failure;
+
+        userRepository.delete(temp);
+
+
+        return success;
+    }
+    @DeleteMapping(path = "/users/u/{username}")
+    String deleteUserByEmail(@PathVariable String username){
+        User temp= userRepository.findByUsername(username);
+        if(temp == null)
+            return failure;
+         List<Item> items = new ArrayList<>(temp.getLikedItems());
+        for (Item item : items) {
+            item.removeLikedByUser(temp);
+            itemRepository.save(item);
+        }
        
         userRepository.delete(temp);
 

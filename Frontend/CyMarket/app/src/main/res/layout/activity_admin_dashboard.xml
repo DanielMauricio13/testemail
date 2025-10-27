@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".AdminDashboardActivity">
+
+    <!-- Top-Bar -->
+    <LinearLayout
+        android:id="@+id/top_nav"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:background="@color/white"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:elevation="6dp">
+
+        <TextView
+            android:id="@+id/admin_text"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="27sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inter"
+            android:text="Administrator Dashboard" />
+    </LinearLayout>
+
+    <!-- Middle-Buttons-Bar -->
+    <LinearLayout
+        android:id="@+id/middle_buttons"
+        android:layout_width="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:background="?attr/colorSurface"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:elevation="6dp">
+
+        <Button
+            android:id="@+id/sales_btn"
+            android:layout_marginTop="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F6F6F6"
+            android:text="Sales"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:backgroundTint="@android:color/black"
+            app:cornerRadius="30dp" />
+
+        <Button
+            android:id="@+id/users_btn"
+            android:layout_marginTop="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Users"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:backgroundTint="#F6F6F6"
+            app:cornerRadius="30dp"/>
+    </LinearLayout>
+
+    <!-- Bottom-Sales-Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_sales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:background="@color/white"
+        android:layout_marginTop="200dp"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#F6F6F6"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="6dp"
+                android:gravity="start"
+                android:fontFamily="@font/inter"
+                android:textSize="16sp"
+                android:text="Total Sales"
+                android:layout_marginBottom="75dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="@font/inter"
+                android:textSize="28sp"
+                android:text="$8,638.90"
+                android:textColor="@android:color/black" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#F6F6F6"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="6dp"
+                android:gravity="start"
+                android:fontFamily="@font/inter"
+                android:textSize="16sp"
+                android:text="Monthly Sales"
+                android:layout_marginBottom="75dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="@font/inter"
+                android:textSize="28sp"
+                android:text="$2,906.50"
+                android:textColor="@android:color/black" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Bottom-Sales-Bar-2 -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_sales_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:background="@color/white"
+        android:layout_marginTop="300dp"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#F6F6F6"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="6dp"
+            android:gravity="start"
+            android:fontFamily="@font/inter"
+            android:textSize="16sp"
+            android:text="Sales Trends"
+            android:layout_marginBottom="75dp"
+            android:textColor="@android:color/black" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Bottom-Users-Bar (Hidden at start)-->
+    <LinearLayout
+        android:id="@+id/bottom_nav_users"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:layout_marginTop="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:background="?attr/colorSurface"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:elevation="6dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFriends"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/> <!-- makes it take the rest of the total space -->
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_nav_menu2" />
+</RelativeLayout>

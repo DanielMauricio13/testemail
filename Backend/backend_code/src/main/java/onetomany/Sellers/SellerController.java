@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Validated
 @RestController
@@ -160,7 +161,7 @@ public class SellerController {
 
     // GET items for a seller
     @GetMapping("/{id}/items")
-    public ResponseEntity<List<Item>> getSellerItems(@PathVariable long id) {
+    public ResponseEntity<Set<Item>> getSellerItems(@PathVariable long id) {
         Seller seller = sellerRepository.findById(id);
         if (seller == null) {
             return ResponseEntity.notFound().build();

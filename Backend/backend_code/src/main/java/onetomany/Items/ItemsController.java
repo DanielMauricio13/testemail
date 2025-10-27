@@ -204,5 +204,76 @@ public class ItemsController {
         return ResponseEntity.ok(sellerInfo);
     }
 
+    // POST seller creates item
+    @PostMapping("/{id}/items")
+    public ResponseEntity<Item> createItemForSeller(@PathVariable long id, @RequestBody Item item) {
+        Seller seller = sellerRepository.findById(id);
+        if (seller == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (item.getCreationDate() == null) {
+            item.setCreationDate(new Date());
+        }
+        item.setIfAvailable(true);
+
+        seller.addItem(item);
+        Item savedItem = itemsRepository.save(item);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+    }
+
+    // GET item quantity
+    @GetMapping("/{id}/quantity")
+    public ResponseEntity<Map<String, Integer>> getItemQuantity(@PathVariable int id) {
+        Item item = itemsRepository.findById(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(Map.of("quantity", item.getQuantity()));
+    }
+
+    // PUT update item quantity
+    @PutMapping("/{id}/quantity")
+    public ResponseEntity<Item> updateItemQuantity(@PathVariable int id, @RequestParam int quantity) {
+        Item item = itemsRepository.findById(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        if (quantity < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        item.setQuantity(quantity);
+        itemsRepository.save(item);
+        return ResponseEntity.ok(item);
+    }
+
+    // POST increment item quantity
+    @PostMapping("/{id}/quantity/increment")
+    public ResponseEntity<Item> incrementItemQuantity(@PathVariable int id) {
+        Item item = itemsRepository.findById(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        item.incrementQuantity();
+        itemsRepository.save(item);
+        return ResponseEntity.ok(item);
+    }
+
+    // POST decrement item quantity
+    @PostMapping("/{id}/quantity/decrement")
+    public ResponseEntity<Item> decrementItemQuantity(@PathVariable int id) {
+        Item item = itemsRepository.findById(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        item.decrementQuantity();
+        itemsRepository.save(item);
+        return ResponseEntity.ok(item);
+    }
 
 }

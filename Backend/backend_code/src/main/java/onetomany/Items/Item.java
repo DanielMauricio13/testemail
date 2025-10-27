@@ -1,7 +1,6 @@
 package onetomany.Items;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import onetomany.Sellers.Seller;
 import onetomany.Users.User;
@@ -27,14 +26,15 @@ public class Item {
     private boolean ifAvailable;
     private String category;
     private int viewCount = 0;
+    private int quantity = 0;
 
 
     @Column(unique = true)
     private String username;
 
     @ManyToOne
+    @JoinColumn(name = "seller_id")
     @JsonIgnore
-    @JoinColumn
     private Seller seller;
 
     @ManyToMany
@@ -43,11 +43,12 @@ public class Item {
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private Set<User> likedByUsers = new HashSet<>();
 
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<ItemImage> images = new ArrayList<>();
 
 
@@ -59,20 +60,26 @@ public class Item {
         this.price = price;
         this.creationDate = new Date();
         this.ifAvailable = true;
-
         this.category = category;
-
         this.username = userName;
-
-
+        this.quantity = 0;
     }
 
     public Item() {
 
     }
+   
+    // =============================== Getters and Setters ================================== //
 
+public void setLikedByUsers(Set<User> likedByUsers) {
+        this.likedByUsers = likedByUsers;
+    }
+   
     public void addLikedByUser(User user) {
         this.likedByUsers.add(user);
+    }
+    public void removeLikedByUser(User user) {
+        this.likedByUsers.remove(user);
     }
 
     public Set<User> getLikedByUsers() {
@@ -160,6 +167,24 @@ public class Item {
 
     public void addCount() {
         this.viewCount++;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void incrementQuantity() {
+        this.quantity++;
+    }
+
+    public void decrementQuantity() {
+        if (this.quantity > 0) {
+            this.quantity--;
+        }
     }
 
     public List<ItemImage> getImages() {

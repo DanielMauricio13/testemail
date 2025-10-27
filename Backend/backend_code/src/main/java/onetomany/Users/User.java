@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import onetomany.Items.Item;
+import onetomany.Reports.Reports;
+import onetomany.userLogIn.userLogin;
 
 
 
@@ -28,6 +30,12 @@ public class User {
 
     @Column(unique = true)
     private String username;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    userLogin  userLogin;
+
+     @OneToMany(mappedBy = "user")
+    List<Reports> userReports;
     
     @Column(unique = true)
     private String emailId;
@@ -67,6 +75,7 @@ public class User {
         this.joiningDate = new Date();
         this.ifActive = true;
     
+        userReports = new ArrayList<>();
         this.UserPassword= userPassword;
 
         this.username = username;
@@ -87,11 +96,22 @@ public class User {
     public Set<Item> getLikedItems(){
         return this.likedItems;
     }
-     public int getLikedItemsCount(){
+    public void setLikedItems(Set<Item> items){
+        this.likedItems=items;
+    
+    }
+    
+    public int getLikedItemsCount(){
         return this.likedItems.size();
     }
     public void removeItem(Item item){
         this.likedItems.remove(item);
+    }
+    public void removeAllItems(){
+        this.likedItems.clear();
+    }
+    public void setUserLogin(userLogin userLogin) {
+        this.userLogin = userLogin;
     }
 
     
@@ -204,6 +224,9 @@ public class User {
     public User getUser(User user){
         User temp = new User();
         return temp;
+    }
+    public void removeReport(Reports reports){
+        this.userReports.remove(reports);
     }
 
     

@@ -8,97 +8,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MessagesActivity extends AppCompatActivity {
-
-    private Button homeButton;  // define profile button variable
-    private Button profileButton;  // define messages button variable
-
-    private Button buyButton;   // define buy button variable
-    private Button sellButton;  // define settings button variable
-
-    private Button myListingsButton; // define my listings button variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
 
-        // Link all the buttons:
-        homeButton = findViewById(R.id.msgs_home_page_btn);
-        profileButton = findViewById(R.id.msgs_profile_btn);
-        buyButton = findViewById(R.id.msgs_buy_btn);
-        sellButton = findViewById(R.id.msgs_sell_btn);
-        myListingsButton = findViewById(R.id.msgs_listings_btn);
-
-        // Click listener on home button pressed:
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessagesActivity.this, MainActivity.class);
-                startActivity(intent);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_buy) {
+                startActivity(new Intent(MessagesActivity.this, BuyActivity.class));
+                return true;
+            } else if (id == R.id.nav_sell) {
+                startActivity(new Intent(MessagesActivity.this, SellActivity.class));
+                return true;
+            } else if (id == R.id.nav_chat) {
+                startActivity(new Intent(MessagesActivity.this, MessagesActivity.class));
+                return true;
             }
+            return false;
         });
-
-        // Click listener on profile button pressed:
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessagesActivity.this, ProfilesActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Click listener on buy button pressed:
-        buyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessagesActivity.this, BuyActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Click listener on sell button pressed:
-        sellButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessagesActivity.this, SellActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Click listener on listings button pressed:
-        myListingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessagesActivity.this, ListingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 }
